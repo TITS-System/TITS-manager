@@ -28,9 +28,6 @@ export class RestaurantService {
   restaurants: RestaurantInterface[] = [];
 
   isRestaurantSelected(): boolean {
-    console.log(this.selectedRestaurant.id);
-    console.log(this.selectedRestaurant.addressString);
-
     // tslint:disable-next-line:triple-equals
     return !!localStorage.getItem('restaurantId') && localStorage.getItem('restaurant_address') != '';
   }

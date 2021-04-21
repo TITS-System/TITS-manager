@@ -1,4 +1,5 @@
-// export interface OrderInterface {
-//   id: number;
-//   destination:
-// }
+export interface OrderInterface {
+  id: number;
+  addressString: string;
+  CreationDate: string;
+}

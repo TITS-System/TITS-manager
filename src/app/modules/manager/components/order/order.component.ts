@@ -7,8 +7,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {CourierInterface} from '../../../../shared/interfaces/courier.interface';
 import {Router} from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
-import { CustomDatePipe} from '../../../../shared/pipes/date.pipe';
-import {RestaurantInterface} from '../../../../shared/interfaces/restaurant.interface';
+import {OrderInterface} from '../../../../shared/interfaces/order.interface';
 
 
 @Component({
@@ -18,7 +17,9 @@ import {RestaurantInterface} from '../../../../shared/interfaces/restaurant.inte
 })
 export class OrderComponent implements OnInit {
 
-  constructor(datePipe: CustomDatePipe) { }
+  constructor() { }
+
+  order: OrderInterface[] = [];
 
   // get dataSource(): any {
   //   if (!this.search) {

@@ -18,6 +18,7 @@ import {FormsModule} from '@angular/forms';
 import {FilterCouriersPipe} from './components/courier/filterCouriers.pipe';
 import {DeliveryStatus} from '../../shared/enums/delivery.enum';
 import {MatCardModule} from '@angular/material/card';
+import {CustomDatePipe} from '../../shared/pipes/date.pipe';
 
 
 @NgModule({
@@ -31,7 +32,7 @@ import {MatCardModule} from '@angular/material/card';
     ProfileComponent,
     FilterCouriersPipe
   ],
-  providers: [RestaurantService],
+  providers: [RestaurantService, CustomDatePipe],
   imports: [
     SharedModule,
     CommonModule,
