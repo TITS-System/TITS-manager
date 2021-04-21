@@ -1,0 +1,87 @@
+@import 'variables'
+
+body, html
+  background: $tits-background
+  margin: 0
+  padding: 0
+
+a
+  text-decoration: none
+
+
+input, button, .label, .no-select, a
+  outline: none
+  -webkit-touch-callout: none
+  -webkit-tap-highlight-color: transparent
+
+button.light-orange-button
+  background: $tits-orange
+  color: $tits-6
+  font-size: 16px
+  text-align: center
+  border: none
+  transition: .1s
+  cursor: pointer
+  width: 300px
+  height: 40px
+
+  &:disabled
+    background: $tits-disabled
+    color: $tits-disabled-text
+    cursor: default
+
+  &:active
+    transform: translateY(-2px)
+    background: $tits-dark-blue
+
+button.ready-button
+  border: none
+  background: $tits-success
+  color: $tits-5
+  font-size: 18px
+  font-weight: 500
+  border-radius: 4px
+  transition: .4s
+
+  &:disabled
+    background: $tits-disabled
+    color: $tits-disabled-text
+
+  &:hover
+    cursor: pointer
+
+  &:active
+    opacity: .8
+
+
+button.error-button
+  border: none
+  background: $tits-error
+  color: $tits-5
+  font-size: 18px
+  font-weight: 500
+  border-radius: 4px
+  transition: .4s
+
+  &:disabled
+    background: $tits-disabled
+    color: $tits-disabled-text
+
+  &:hover
+    cursor: pointer
+
+  &:active
+    opacity: .8
+
+.grey-button-link
+  color: $tits-6
+  text-align: center
+  border-radius: 4px
+  display: flex
+  justify-content: center
+  align-items: center
+  font-size: 17px
+  background: $tits-2
+
+  &.active
+    background: $tits-3
