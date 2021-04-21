@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 import {} from 'googlemaps';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GetCouriersResultInterface} from '../../../../shared/interfaces/getCouriersResult.interface';
 import {environment} from '../../../../../environments/environment';
 import {CourierAccountInterface} from '../../../../shared/interfaces/courierAccount.interface';
@@ -38,13 +38,20 @@ export class MapComponent implements OnInit {
 
 
   getCouriersByRes(restId: number, map: any): void {
-    this.httpClient.get(`${environment.apiUrl}/Courier/GetAllByRestaurant?restaurantId=${restId}`).subscribe((response: any) => {
+    const token = localStorage.getItem(`token`) || '';
+    const headers = new HttpHeaders().set('auth-token', token);
+
+    this.httpClient.get(`${environment.apiUrl}/Courier/GetAllByRestaurant?restaurantId=${restId}`, {headers}).subscribe((response: any) => {
       this.resCouriers = response;
-      this.resCouriers.Couriers.forEach((e) => {
+      console.log('hz2');
+      console.log(response);
+      console.log(this.resCouriers.couriers);
+      this.resCouriers.couriers.forEach((e) => {
           console.log('some log');
           const marker = new google.maps.Marker({
-            position: {lat: e.LastLatLng.Lat, lng: e.LastLatLng.Lng},
+            position: {lat: e.lastLatLng.lat, lng: e.lastLatLng.lng},
             map,
+            icon: 'https://sun9-70.userapi.com/impg/BZQlbqpRhVseZCQcz8awu-sxvm-nAFaxd9ApIA/qH3ENc9W-qA.jpg?size=1541x1035&quality=96&sign=39a207fba9a6a14ebb4ccbd2f7537656&type=album'
           });
         }
       )
@@ -54,7 +61,7 @@ export class MapComponent implements OnInit {
 
 
   constructor(private httpClient: HttpClient) {
-    this.resCouriers = {Couriers: []};
+    this.resCouriers = {couriers: []};
   }
 
   ngOnInit(): void {
