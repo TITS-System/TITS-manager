@@ -1,0 +1,8 @@
+<div class="container">
+    <h1>Akiana System</h1>
+    <div class="inner">
+        <a *ngFor="let role of accountService.userRoles" [routerLink]="['/' + role.titleEn.toLowerCase()]" class="tile">
+            <span>{{ role.titleRu }}</span>
+        </a>
+    </div>
+</div>

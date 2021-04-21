@@ -1,0 +1,23 @@
+<div class="container" #container>
+    <div class="table-header">
+        <div class="arrow-left no-select" (click)="swipe('left')">
+            <img src="/assets/icons/arrow-left.svg">
+        </div>
+        <div class="timer-container">
+            <div class="tile">
+                <div class="order">
+                    <span>Заказ 15-4</span>
+                </div>
+                <div class="timer">
+                    <span>7:54</span>
+                </div>
+            </div>
+        </div>
+        <div class="arrow-right no-select" (click)="swipe('right')">
+            <img src="/assets/icons/arrow-right.svg">
+        </div>
+    </div>
+    <div class="pages-container" [@move]="{value: animationState, params: {transform: transform}}" (@move.done)="onAnimationDone()">
+        <app-slider-page *ngFor="let page of pages" [products]="page.products"></app-slider-page>
+    </div>
+</div>

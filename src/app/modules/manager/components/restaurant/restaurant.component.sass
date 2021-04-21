@@ -1,0 +1,41 @@
+@import "variables"
+
+.container
+  box-sizing: border-box
+  border: 10px solid $tits-orange
+  width: 100%
+  min-height: 100vh
+  //margin: 10px
+
+  table
+    width: 100%
+
+    td
+      text-align: center
+
+    .table-header
+      height: 15vh
+      color: $tits-orange
+      font-size: 2rem
+
+
+    .none-border
+      border: none !important
+
+    .table-body
+      height: 10vh
+      color: #111
+      font-size: 1.5rem
+
+      td
+        border-bottom: 1px solid $tits-orange
+
+
+      .manage-btn
+        color: #111
+        background-color: $tits-orange
+
+      .disabled-btn
+        background-color: $tits-4_2
+        cursor: default
+

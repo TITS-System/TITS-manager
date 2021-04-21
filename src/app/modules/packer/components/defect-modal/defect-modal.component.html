@@ -1,0 +1,7 @@
+<div class="container" *ngIf="defectModalService.displayModal">
+    <div class="modal">
+        <h2>Вы действительно хотите забраковать весь заказ?</h2>
+        <img src="/assets/icons/warning.svg">
+        <button class="error-button" (click)="confirmDefect()">Брак всего заказа</button>
+    </div>
+</div>

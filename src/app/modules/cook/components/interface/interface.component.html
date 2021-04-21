@@ -1,0 +1,29 @@
+<section class="container">
+    <div class="wrapper">
+        <div class="header-container">
+            <div class="additional-content-container">
+                <div class="inner">
+                    <p>Заказ №15-6</p>
+                    <div class="infographic-container">
+                        <div class="product-circle active"></div>
+                        <div class="product-circle active"></div>
+                        <div class="product-circle active"></div>
+                        <div class="product-circle active"></div>
+                        <div class="product-circle active"></div>
+                        <div class="product-circle active"></div>
+                        <div class="product-circle"></div>
+                    </div>
+                </div>
+            </div>
+            <app-header></app-header>
+        </div>
+        <div class="content-container">
+            <app-intstructions></app-intstructions>
+        </div>
+        <div class="actions-container">
+            <app-actions></app-actions>
+        </div>
+    </div>
+</section>
+<app-modal-oven *ngIf="ovenModalService.isOpened"></app-modal-oven>
+<app-modal-pause *ngIf="workSessionService.isOnPause"></app-modal-pause>

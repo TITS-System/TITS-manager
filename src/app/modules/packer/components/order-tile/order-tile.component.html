@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="column">
+        <div class="image"></div>
+    </div>
+    <div class="column gap"></div>
+    <div class="column">
+        <div class="title">
+            <span>Филадльфия Чиз</span>
+        </div>
+        <div class="state">
+            <div class="circle ready"></div>
+            <span>Готово</span>
+        </div>
+        <div class="buttons">
+            <button class="ready-button"
+            (click)="isPacked = !isPacked"
+            [ngClass]="{
+                'not-active': !isPacked
+            }"
+            >{{ isPacked ? 'Упакован' : 'Упаковать' }}</button>
+            <button class="error-button" (click)="displayModal = true">Брак</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="backdrop-container">
+    <div class="modal">
+        <h3>Перерыв</h3>
+        <h2>{{ workSessionService.pauseTime * 1000 | date:"mm:ss" }}</h2>
+        <!-- <h2>{{ workSessionService.pauseTime }}</h2> -->
+        <img src="/assets/icons/clock.svg">
+        <div class="controls">
+            <button class="ready-button" (click)="workSessionService.continueWork()">Вернуться к работе</button>
+            <button class="error-button" (click)="accountService.logout()">Выйти из аккаунта</button>
+        </div>
+    </div>
+</div>

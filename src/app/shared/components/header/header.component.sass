@@ -1,0 +1,127 @@
+@import 'variables'
+
+
+.container
+    width: 100%
+    height: 100%
+    display: flex
+    .content-container
+        box-sizing: border-box
+        padding: 15px
+        flex: 29
+        height: 100%
+        display: flex
+        justify-content: center
+        align-items: center
+        p
+            display: block
+            text-align: center
+            font-size: 24px
+            color: $tits-5
+        .infographic-container
+            margin: 0 auto
+            display: flex
+            justify-content: center
+            .product-circle
+                width: 20px
+                height: 20px
+                border-radius: 50%
+                background: $tits-2_2
+                margin: 0px 6px 0px 6px
+                &.active
+                    background: $tits-success
+
+    .timer-container
+        flex: 40
+        height: 100%
+        box-sizing: border-box
+        padding: 10px
+
+        .tile
+            display: flex
+            height: 100%
+            width: 60%
+            background: $tits-2_2
+            border-radius: 4px
+            overflow: hidden
+            color: $tits-4_2
+            div
+                display: flex
+                justify-content: center
+                align-items: center
+                text-align: center
+                small
+                    display: block
+                    margin-bottom: 5px
+                    font-size: 12px
+                span
+                    font-size: 24px
+            .left
+                box-sizing: border-box
+                flex: 1
+                border-right: 1px solid $tits-1
+            .right
+                flex: 1
+    .open-menu-container
+        flex: 31
+        height: 100%
+        display: flex
+        box-sizing: border-box
+        // padding: 10px
+        justify-content: flex-end
+        align-items: center
+
+        .inner
+            z-index: 11
+            display: flex
+            cursor: pointer
+            user-select: none
+            .info
+                display: flex
+                padding-right: 10px
+                justify-content: center
+                align-items: center
+                flex-direction: column
+                p
+                    margin: 0
+                    text-align: right
+                    width: 100%
+                p.name
+                    color: $tits-5
+                    font-size: 20px
+                p.date
+                    font-size: 16px
+                    color: $tits-4
+
+
+.backdrop-container
+    width: 100vw
+    height: 100vh
+    position: absolute
+    background: $tits-backdrop
+    top: 0
+    left: 0
+    z-index: 10
+
+.drop-menu-container
+    width: 26vw
+    height: 11vh
+    position: absolute
+    background: red
+    right: 2.5%
+    top: 11.5vh
+    background: $tits-2
+    border-radius: 4px
+    display: flex
+    justify-content: center
+    align-items: center
+    button
+        width: 85%
+        height: 55%
+
+
+
+@media screen and ( min-width: 1366px)
+    .tile
+        small
+            font-size: 14px !important

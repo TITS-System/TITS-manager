@@ -1,0 +1,3 @@
+<div class="container">
+    <app-slider-tile *ngFor="let iter of [1, 1, 1, 1, 1, 1]; let i = index" [product]="(products[i]) ? products[i] : {isPseudo: true}"></app-slider-tile>
+</div>

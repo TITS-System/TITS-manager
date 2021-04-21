@@ -1,0 +1,21 @@
+<div class="container">
+  <table>
+    <tr class="table-header">
+      <th>Address</th>
+      <th></th>
+    </tr>
+    <tr class="table-body " *ngFor="let restaurant of restaurants">
+      <td>{{restaurant.AddressString}}</td>
+      <td>
+        <button mat-flat-button
+                class="manage-btn"
+                [disabled]="restaurant.isActivated"
+                [ngClass]="{'disabled-btn': restaurant.isActivated}"
+                (click)="manageRestaurant(restaurant.Id)"
+        >
+          Manage
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>

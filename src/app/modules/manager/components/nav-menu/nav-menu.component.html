@@ -1,0 +1,122 @@
+<div id="mySidenav" class="sidenav menu" *ngIf="restaurantService.isRestaurantSelected()">
+  <div class="logo-container">
+    <img src="./assets/icons/logo.svg" alt="T. I. T. S.">
+  </div>
+  <div class="menu-container">
+    <div
+      class="menu-item map-item"
+      [routerLink]="['/manager', 'map']"
+      [routerLinkActive]="['selected']"
+      [routerLinkActiveOptions]="{exact: true}"
+    >
+      <div class="inner-context"
+           [routerLink]="['/manager', 'map']"
+           [routerLinkActive]="['none-border']"
+      >
+        <div class="inner-content">
+          <div class="icon-wrapper">
+            <img src="./assets/icons/map_ico.svg" alt="">
+          </div>
+          <div class="text-wrapper">
+            <span>MAP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="menu-item couriers-item"
+      [routerLink]="['/manager', 'couriers']"
+      [routerLinkActive]="['selected']"
+      [routerLinkActiveOptions]="{exact: true}"
+    >
+      <div class="inner-context"
+           [routerLink]="['/manager', 'couriers']"
+           [routerLinkActive]="['none-border']"
+      >
+        <div class="inner-content">
+          <div class="icon-wrapper">
+            <img src="./assets/icons/couriers_button.svg" alt="">
+          </div>
+          <div class="text-wrapper">
+            <span>COURIERS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="menu-item deliveries-item"
+      [routerLink]="['/manager', 'deliveries']"
+      [routerLinkActive]="['selected']"
+      [routerLinkActiveOptions]="{exact: true}"
+    >
+      <div class="inner-context"
+           [routerLink]="['/manager', 'deliveries']"
+           [routerLinkActive]="['none-border']"
+      >
+        <div class="inner-content">
+          <div class="icon-wrapper">
+            <img src="./assets/icons/deliviries_ico.svg" alt="">
+          </div>
+          <div class="text-wrapper">
+            <span>DELIVERIES</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="menu-item orders-item"
+      [routerLink]="['/manager', 'orders']"
+      [routerLinkActive]="['selected']"
+      [routerLinkActiveOptions]="{exact: true}"
+    >
+      <div class="inner-context"
+           [routerLink]="['/manager', 'orders']"
+           [routerLinkActive]="['none-border']"
+      >
+        <div class="inner-content">
+          <div class="icon-wrapper">
+            <img src="./assets/icons/orders_ico.svg" alt="Orders">
+          </div>
+          <div class="text-wrapper">
+            <span>ORDERS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="menu-item profile-item"
+      [routerLink]="['/manager', 'profile']"
+      [routerLinkActive]="['selected']"
+      [routerLinkActiveOptions]="{exact: true}"
+    >
+      <div class="inner-context"
+           [routerLink]="['/manager', 'profile']"
+           [routerLinkActive]="['none-border']"
+      >
+        <div class="inner-content">
+          <div class="icon-wrapper">
+            <img src="./assets/icons/profile_ico.svg" alt="Profile">
+          </div>
+          <div class="text-wrapper">
+            <span>PROFILE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="restaurant-btn">
+    <button mat-flat-button class="manage-btn curr-rest" (click)="changeRestaurant()">
+      {{getSelectedRestaurantAddress()}}
+    </button>
+  </div>
+</div>
+<div class="container" [ngClass]="{'margined': restaurantService.isRestaurantSelected()}">
+  <div class="context">
+    <router-outlet></router-outlet>
+  </div>
+</div>

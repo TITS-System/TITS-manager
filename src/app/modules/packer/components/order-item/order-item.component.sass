@@ -1,0 +1,48 @@
+@import 'variables'
+    
+.container
+    display: flex
+    background: #ffffff
+    box-sizing: border-box
+    height: 9vh
+    padding: 20px
+    border-radius: 4px
+
+    .title
+        flex: 3
+        display: flex
+        align-items: center
+
+        span
+            font-size: 19px
+            font-weight: 500
+            color: $akiana-1
+
+    .products
+        flex: 10
+        display: flex
+        align-items: center
+
+        .product
+            width: 15px
+            height: 15px
+            border-radius: 50%
+            background: $akiana-4
+            margin-right: 5px
+            overflow-x: auto
+
+            &.active
+                background: $akiana-success
+    
+    .tag
+        flex: 4
+        display: flex
+        align-items: center
+        flex-direction: row-reverse
+
+        span
+            color: #fff
+            font-size: 13px
+            background: $akiana-green
+            padding: 3px 10px 3px 10px
+            border-radius: 4px

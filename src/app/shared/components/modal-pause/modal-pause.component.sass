@@ -1,0 +1,54 @@
+@import 'variables'
+
+.backdrop-container
+    position: absolute
+    top: 0
+    left: 0
+    z-index: 15
+    width: 100vw
+    height: 100vh
+    background: $tits-backdrop
+    display: flex
+    justify-content: center
+    align-items: center
+
+    .modal
+        width: 61%
+        min-height: 56%
+        max-height: 80%
+        overflow-y: auto
+        background: $tits-2
+        border-radius: 4px
+        position: relative
+        display: flex
+        flex-direction: column
+        // justify-content: center
+        align-items: center
+
+        h3
+            color: $tits-5
+            font-size: 28px
+            font-weight: 500
+            margin-top: 10%
+
+        h2
+            color: $tits-5
+            font-size: 35px
+            font-weight: 500
+            margin-top: 3%
+
+        img
+            width: 16.3%
+            height: 24%
+
+        .controls
+            display: flex
+            justify-content: center
+            width: 80%
+            margin: 0 auto
+            gap: 6%
+            margin-top: 5%
+
+            button
+                width: 44%
+                height: 7vh

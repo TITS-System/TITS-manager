@@ -1,0 +1,27 @@
+<div class="container">
+    <header>
+        <div class="button-container">
+            <a
+            [routerLink]="['/packer', 'orders']"
+            class="grey-button-link active"
+            *ngIf="this.options.displayHeaderBackButton"
+            >Назад</a>
+        </div>
+        <app-header [timers]="false"></app-header>
+    </header>
+    <div class="content-container">
+        <router-outlet></router-outlet>
+    </div>
+    <footer>
+        <div class="switcher-container">
+            <app-packer-switcher></app-packer-switcher>
+        </div>
+        <div class="arrows-container">
+            <app-slider-arrows *ngIf="this.options.displayFooterArrows"></app-slider-arrows>
+        </div>
+        <div class="buttons-container">
+            <app-footer-action-buttons *ngIf="this.options.displayFooterAssemblyButtons"></app-footer-action-buttons>
+            <app-footer-defect-button *ngIf="this.options.displayFooterDefectButton"></app-footer-defect-button>
+        </div>
+    </footer>
+</div>

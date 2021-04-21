@@ -1,0 +1,79 @@
+@import 'variables'
+
+.container
+    width: 95%
+    height: 93%
+    margin: 0 auto
+    display: flex
+
+
+    h2
+        margin: 0
+        display: block
+        text-align: center
+        color: $tits-5
+        line-height: 38px
+
+    .timers-container
+        flex: 35
+
+        .inner
+            width: 95%
+            height: calc(100% - 38px)
+            border-radius: 4px
+            overflow: hidden
+            display: grid
+            grid-template-rows: 1fr 1fr
+            grid-template-columns: 1fr 1fr
+            gap: 2px
+            box-sizing: border-box
+
+            .timer
+                background: $tits-2
+                display: flex
+                justify-content: center
+                align-items: center
+                text-align: center
+                padding: 10px
+
+                small
+                    display: block
+                    font-size: 12px
+                    color: $tits-4
+                    padding-bottom: 8px
+
+                span
+                    font-size: 24px
+                    color: $tits-5
+
+    .actions-container
+        flex: 65
+
+        .inner
+            width: 100%
+            height: calc(100% - 38px)
+
+            .comment-container
+                width: 100%
+                height: 66%
+                border-radius: 4px
+                background: $tits-2
+                box-sizing: border-box
+                padding: 15px
+                overflow-y: auto
+                p
+                    color: $tits-5
+                    font-size: 16px
+
+            app-action-buttons
+                display: block
+                height: 34%
+
+
+
+@media screen and ( min-width: 1366px)
+    .timer small
+        // todo fix
+        font-size: 16px !important
+    .timer span
+        font-size: 30px !important

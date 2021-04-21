@@ -1,0 +1,19 @@
+<div class="buttons-container">
+    <div class="left-container">
+        <div class="complex-button-container">
+            <button (click)="workSessionService.pauseWork()">Перерыв</button>
+            <div class="label">
+                <span>{{ workSessionService.pauseTime * 1000 | date:"mm:ss" }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="right-container">
+        <div class="complex-button-container" *ngIf="showOvenButton">
+            <button>В печь</button>
+            <div class="label" (click)="ovenModalService.open()">
+                <span>4</span>
+            </div>
+        </div>
+        <button class="ready-button">Готово</button>
+    </div>
+</div>
