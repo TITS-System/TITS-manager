@@ -15,14 +15,14 @@ import { SelectRoleComponent } from './components/select-role/select-role.compon
 import { SharedModule } from './shared/modules/shared.module';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import {CustomDatePipe} from './shared/pipes/date.pipe';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
   multi: true,
   useClass: AuthInterceptor
 };
-
 
 @NgModule({
   declarations: [
@@ -36,6 +36,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialSharedModule,

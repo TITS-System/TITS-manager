@@ -16,6 +16,8 @@ export class AccountService {
   postfix = 'manager';
 
   private _userRoles: Role[] = [];
+  private _token: string = '';
+  private _managerId: string = '';
 
   get userRoles(): Role[] {
     return this._userRoles;
@@ -24,9 +26,6 @@ export class AccountService {
   set userRoles(userRoles: Role[]) {
     this._userRoles = userRoles;
   }
-
-  private _token: string = '';
-
 
   constructor(
     private _httpClient: HttpClient,
@@ -43,9 +42,20 @@ export class AccountService {
   get token(): string {
     if (!this._token) {
       this._token = localStorage.getItem('token') + '';
-
     }
     return this._token;
+  }
+
+  set managerId(managerId: string){
+    this._managerId = managerId;
+    localStorage.setItem('manager_id', this.managerId);
+  }
+
+  get managerId(): string {
+    if (!this._managerId) {
+      this._managerId = localStorage.getItem('manager_id') + '';
+    }
+    return this._managerId;
   }
 
 
@@ -55,6 +65,7 @@ export class AccountService {
         map((response: any) => {
           if (response?.authToken) {
             this.token = response.authToken;
+            this.managerId = response.workerId;
           }
 
           // this._workSessionService.beginSession()

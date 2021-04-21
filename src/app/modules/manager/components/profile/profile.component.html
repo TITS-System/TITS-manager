@@ -1,1 +1,11 @@
-<p>profile works!</p>
+<div style="text-align: center">
+  <div style="margin-top: 17%">
+    <h1 [ngModel]="_manager">
+      <b style="font-size: 72px">{{_manager.username}}</b>
+    </h1>
+  </div>
+  <div style="margin-top: 3.5rem; display: flex">
+    <div style="flex: 0 0 65%"><img style="transform: rotate(-45deg); " src="./assets/icons/phone.svg"></div>
+    <div style="flex: 1"><h1 [ngModel]="_manager">{{_manager.login}}</h1></div>
+  </div>
+</div>
