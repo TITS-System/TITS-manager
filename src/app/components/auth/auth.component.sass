@@ -1,13 +1,15 @@
 @import 'variables'
 
+$total_height: 573px
+
 .container
   width: 100%
   max-width: 350px
-  height: 436px
+  height: $total_height
   margin: 0 auto
-  margin-top: 199px
+  // margin-top: 199px
   position: absolute
-  top: calc(50% - 436px)
+  top: calc(50% - #{$total_height / 2})
   left: calc(50% - 175px)
 
   h2
@@ -20,7 +22,7 @@
 
   small.title
     font-size: 16px
-    color: $tits-6
+    color: $tits-active-dark
     display: block
     margin-bottom: 8px
 
