@@ -1,24 +1,35 @@
-import {Injectable} from '@angular/core';
-import {RestaurantInterface} from '../../../shared/interfaces/restaurant.interface';
+import { Injectable } from '@angular/core';
+import { RestaurantInterface } from '../../../shared/interfaces/restaurant.interface';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AccountService } from 'src/app/shared/services/account.service';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { CourierInterface } from 'src/app/shared/interfaces/courier.interface';
 
 @Injectable()
 export class RestaurantService {
 
-  constructor() {
+  postfix = 'restaurant';
 
+  constructor(private http: HttpClient,
+  ) {
   }
+
 
   selectedRestaurant: RestaurantInterface = {
     Id: 0,
     AddressString: '',
-    LocationLatLng: {Lat: 0, Lng: 0}
+    LocationLatLng: { Lat: 0, Lng: 0 },
   };
 
+
+  restaurants: RestaurantInterface[] = [];
+
   isRestaurantSelected(): boolean {
-    // return !!this.selectedRestaurant.Id || !!localStorage.getItem('restaurantId');
-    // return !!this.selectedRestaurant.id;
-    return true;
+    return !!this.selectedRestaurant.Id || !!localStorage.getItem('restaurantId');
   }
+
+
 
   getSelectedRestaurantId(): number {
     if (this.selectedRestaurant.Id) {
@@ -31,14 +42,42 @@ export class RestaurantService {
     return 0;
   }
 
-  getSelectedRestaurantAddress(): string {
+
+  async getAllRestaurants(): Promise<RestaurantInterface[]> {
+
+    const token = localStorage.getItem(`token`) || "";
+
+    const headers = new HttpHeaders().set('auth-token', token);
+
+    this.http.get<RestaurantInterface[]>(`${environment.apiUrl}/${this.postfix}/getall`, { headers: headers }).subscribe(
+      responseData => {
+        this.restaurants = responseData
+      },
+      error => {
+        alert(`error: ${error.status}, ${error.statusText}`);
+      }
+    );
+
+    return this.restaurants;
+  }
+
+
+  async getSelectedRestaurant(): Promise<RestaurantInterface> {
+
     const restaurantId = this.getSelectedRestaurantId();
-    //TODO get request to retrieve addressString by restaurant.id
+    const token = localStorage.getItem(`token`) || "";
 
-    let response = 'DoDo Pizza on ул. Карла Маркса д.5';
+    const headers = new HttpHeaders().set('auth-token', token);
 
-    response = (response.length > 45) ? response.substr(0, 44) + '...' : response;
+    this.http.get<RestaurantInterface>(`${environment.apiUrl}/${this.postfix}/getinfo?restaurantId=${restaurantId}`, { headers: headers }).subscribe(
+      responseData => {
+        this.selectedRestaurant = responseData
+      },
+      error => {
+        alert(`error: ${error.status}, ${error.statusText}`);
+      }
+    );
 
-    return response;
+    return this.selectedRestaurant;
   }
 }
