@@ -46,6 +46,6 @@
   </div>
 
   <div class="absolute-window">
-    <app-order-by-id [selectedOrderId]="selectedOrderId"></app-order-by-id>
+    <app-order-by-id (isHidden)="hideOrderById()" [selectedOrderId]="selectedOrderId"></app-order-by-id>
   </div>
 </div>

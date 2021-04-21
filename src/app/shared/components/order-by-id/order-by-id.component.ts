@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-order-by-id',
@@ -7,12 +7,18 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class OrderByIdComponent implements OnInit {
 
-  @Input() selectedOrderId = -1;
 
   constructor() {
   }
 
+  @Input() selectedOrderId = -1;
+
+  @Output() isHidden = new EventEmitter<void>();
+
   ngOnInit(): void {
   }
 
+  hide(): void {
+    this.isHidden.emit();
+  }
 }

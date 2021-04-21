@@ -77,10 +77,15 @@ export class OrderComponent implements OnInit {
   openOrderById(OrderId: number): void {
     this.selectedOrderId = OrderId;
 
-    this.showAbsoluteWindow();
+    this.showOrderById();
   }
 
-  showAbsoluteWindow(): void {
+  showOrderById(): void {
+    (document.querySelector('.absolute-window') as HTMLElement).style.left = '0';
+  }
 
+  hideOrderById(): void {
+    (document.querySelector('.absolute-window') as HTMLElement).style.transition = '1s';
+    (document.querySelector('.absolute-window') as HTMLElement).style.left = '100%';
   }
 }
