@@ -36,8 +36,9 @@ export class DeliveryComponent implements OnInit {
       TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()},
       Status: DeliveryStatus.Delivering
     },
-    {Id: 4, OrderId: 321, CourierUsername: 'Vlad', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
-    {Id: 5, OrderId: 321, CourierUsername: 'Egor', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
+    {
+      Id: 4, OrderId: 321, CourierUsername: 'Vlad', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
+    {Id: 5, OrderId: 321, CourierUsername: 'Egor', TimeRange: {BeginAt: Date.now() - 100000000, FinishAt: Date.now() + 1500000000}, Status: DeliveryStatus.Cancelled},
     {Id: 8, OrderId: 321, CourierUsername: 'Gena', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
     {
       Id: 6,
@@ -61,6 +62,8 @@ export class DeliveryComponent implements OnInit {
         c.Id.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
         c.OrderId.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
         c.CourierUsername.toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+        new Date(c.TimeRange.BeginAt).toDateString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+        new Date(c.TimeRange.FinishAt).toDateString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
         c.Status.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1));
   }
 
@@ -78,7 +81,7 @@ export class DeliveryComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getProperLink(id: number) {
+  getProperLink(id: number): string {
     let propStr = String(id);
 
     while (propStr.length < 9) {
@@ -88,16 +91,20 @@ export class DeliveryComponent implements OnInit {
     return propStr;
   }
 
-  getDateString(beginAt: number) {
+  getDateString(beginAt: number): string {
     return new Date(beginAt).toDateString();
   }
 
-  openDeliveryById(Id: number) {
-    //TODO
+  openDeliveryById(Id: number): void {
+    // TODO
     // this.router.navigate(['/manager', 'delivery/:${}'])
   }
 
-  openOrderById(OrderId: number) {
+  openOrderById(OrderId: number): void {
+
+  }
+
+  openCourierById(CourierId: number): void {
 
   }
 }

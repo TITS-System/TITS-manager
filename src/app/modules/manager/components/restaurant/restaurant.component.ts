@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { RestaurantService } from '../../services/restaurant.service';
-import { RestaurantInterface } from '../../../../shared/interfaces/restaurant.interface';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {RestaurantService} from '../../services/restaurant.service';
+import {RestaurantInterface} from '../../../../shared/interfaces/restaurant.interface';
 
 
 @Component({
@@ -13,19 +13,18 @@ export class RestaurantComponent implements OnInit {
 
   restaurants: RestaurantInterface[] = [];
 
-  selectedRestaurant: RestaurantInterface = { Id: 0, AddressString: '', LocationLatLng: { Lat: 0, Lng: 0 }};
+  selectedRestaurant: RestaurantInterface = {Id: 0, AddressString: '', LocationLatLng: {Lat: 0, Lng: 0}};
 
   constructor(private router: Router, private restaurantService: RestaurantService) {
   }
 
-  ngOnInit(): void {
-    this.getRestaurants();
-    this.getSelectedRestaurant();
-    localStorage.setItem('restaraunt_adress', JSON.stringify(this.selectedRestaurant.AddressString));
+  async ngOnInit(): Promise<void> {
+    await this.getRestaurants();
+    // localStorage.setItem('restaurant_address', JSON.stringify(this.selectedRestaurant.AddressString));
   }
 
-  //this.selectedRestaurant.AddressString - БРАТЬ ОТСЮДА
-  
+  // this.selectedRestaurant.AddressString - БРАТЬ ОТСЮДА
+
   async getRestaurants(): Promise<void> {
     this.restaurants = await this.restaurantService.getAllRestaurants();
   }
@@ -37,7 +36,9 @@ export class RestaurantComponent implements OnInit {
   manageRestaurant(restaurantId: number): void {
     localStorage.setItem('restaurantId', String(restaurantId));
     this.restaurantService.selectedRestaurant.Id = restaurantId;
+    localStorage.setItem('restaurant_address', JSON.stringify(this.selectedRestaurant.AddressString));
     this.router.navigate(['/manager', 'map']);
+
   }
 
 }

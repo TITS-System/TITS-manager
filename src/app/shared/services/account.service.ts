@@ -52,15 +52,15 @@ export class AccountService {
     return this._httpClient.post(`${environment.apiUrl}/${this.postfix}/login`, loginData, {withCredentials: true})
       .pipe(
         map((response: any) => {
-          if (response?.token) {
-            this.token = response.token;
+          if (response?.authToken) {
+            this.token = response.authToken;
           }
 
-          this._workSessionService.beginSession()
-            .subscribe(res => {
-              console.log('Begin Session: ', res);
-              return response;
-            });
+          // this._workSessionService.beginSession()
+          //   .subscribe(res => {
+          //     console.log('Begin Session: ', res);
+          //     return response;
+          //   });
         })
       );
   }

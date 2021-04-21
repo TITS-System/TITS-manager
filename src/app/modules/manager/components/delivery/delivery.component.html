@@ -17,14 +17,19 @@
     <ng-container matColumnDef="OrderId">
       <th mat-header-cell *matHeaderCellDef class="table-order"> Order Id</th>
       <td mat-cell *matCellDef="let row">
-        <span class="custom-link" (click)="openOrderById(row.OrderId)"></span>
-        #{{getProperLink(row.OrderId)}}
+        <span class="custom-link" (click)="openOrderById(row.OrderId)">
+          #{{getProperLink(row.OrderId)}}
+        </span>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="CourierUsername">
       <th mat-header-cell *matHeaderCellDef class="table-header"> Courier username</th>
-      <td mat-cell *matCellDef="let row"> {{ row.CourierUsername }} </td>
+      <td mat-cell *matCellDef="let row">
+        <span class="custom-link" (click)="openCourierById(row.Courier.Id)">
+          {{ row.CourierUsername }}
+        </span>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="TimeRange">
@@ -45,7 +50,7 @@
         <div class="icon-wrapper">
           <img *ngIf="row.Status.toString() == 'Delivered'" src="./assets/icons/delivered-icon.svg" alt="Delivered">
           <img *ngIf="row.Status.toString() == 'Delivering'" src="./assets/icons/delivering-icon.svg" alt="Delivering">
-          <img *ngIf="row.Status.toString() == 'Cancelled'" src="./assets/icons/cancelled-2.0.svg" alt="Cancelled">
+          <img *ngIf="row.Status.toString() == 'Canceled'" src="./assets/icons/cancelled-2.0.svg" alt="Cancelled">
         </div>
       </td>
     </ng-container>

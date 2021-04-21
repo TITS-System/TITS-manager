@@ -1,5 +1,5 @@
 export enum DeliveryStatus {
   Delivered = 'Delivered',
-  Cancelled = 'Cancelled',
+  Cancelled = 'Canceled',
   Delivering = 'Delivering',
 }
