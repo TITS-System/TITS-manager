@@ -4,12 +4,13 @@
       <th>Address</th>
       <th></th>
     </tr>
+<!--    <tr class="table-body " *ngFor="let restaurant of restaurants">-->
     <tr class="table-body " *ngFor="let restaurant of restaurants">
-      <td>{{restaurant.AddressString}}</td>
+      <td>{{restaurant.addressString}}</td>
       <td>
         <button mat-flat-button
                 class="manage-btn"
-                (click)="manageRestaurant(restaurant.Id)"
+                (click)="manageRestaurant(restaurant.id, restaurant.addressString)"
         >
           Manage
         </button>

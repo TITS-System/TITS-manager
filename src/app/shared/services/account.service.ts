@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from 'src/environments/environment';
-import { loginDTO } from '../interfaces/loginDto.interface';
+import {loginDTO} from '../interfaces/loginDto.interface';
 import {Role} from '../interfaces/role.interface';
 import {WorkSessionService} from './worksession.service';
 
@@ -65,11 +65,11 @@ export class AccountService {
       );
   }
 
-  killToken() {
+  killToken(): void {
     this.token = '';
   }
 
-  logout() {
+  logout(): void {
     this._httpClient.get(`${environment.apiUrl}/${this.postfix}/logout`)
       .subscribe(() => {
         this.killToken();
@@ -86,7 +86,7 @@ export class AccountService {
       .pipe(
         map((response: any) => {
           this.userRoles = response.roles;
-          return !!this.userRoles.filter(r => r.titleEn == role).length;
+          return !!this.userRoles.filter(r => r.titleEn === role).length;
         })
       ).toPromise();
   }

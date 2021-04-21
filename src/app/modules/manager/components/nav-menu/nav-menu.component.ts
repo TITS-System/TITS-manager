@@ -15,6 +15,7 @@ export class NavMenuComponent implements OnInit {
     public restaurantService: RestaurantService,
     private routerModule: RouterModule
   ) {
+
   }
 
   ngOnInit(): void {
@@ -27,10 +28,12 @@ export class NavMenuComponent implements OnInit {
   }
 
    getSelectedRestaurantAddress(): string {
-    return localStorage.getItem('restaraunt_adress') || '';
+    return localStorage.getItem('restaurant_address') || '';
   }
 
   changeRestaurant(): void {
+    localStorage.removeItem('restaurant_address');
+    localStorage.removeItem('restaurantId');
     this.router.navigate(['/manager', 'restaurants']);
   }
 }

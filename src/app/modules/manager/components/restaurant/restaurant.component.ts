@@ -13,30 +13,29 @@ export class RestaurantComponent implements OnInit {
 
   restaurants: RestaurantInterface[] = [];
 
-  selectedRestaurant: RestaurantInterface = {Id: 0, AddressString: '', LocationLatLng: {Lat: 0, Lng: 0}};
+  selectedRestaurant: RestaurantInterface = {id: 0, addressString: '', locationLatLng: undefined};
 
   constructor(private router: Router, private restaurantService: RestaurantService) {
   }
 
-  async ngOnInit(): Promise<void> {
-    await this.getRestaurants();
-    // localStorage.setItem('restaurant_address', JSON.stringify(this.selectedRestaurant.AddressString));
+  ngOnInit(): void {
+    this.getRestaurants().then(r => console.log(r));
   }
 
-  // this.selectedRestaurant.AddressString - БРАТЬ ОТСЮДА
-
-  async getRestaurants(): Promise<void> {
+  async getRestaurants(): Promise<RestaurantInterface[]> {
     this.restaurants = await this.restaurantService.getAllRestaurants();
+    console.log(this.restaurants);
+    return this.restaurants;
   }
 
-  async getSelectedRestaurant(): Promise<void> {
-    this.selectedRestaurant = await this.restaurantService.getSelectedRestaurant();
+  getSelectedRestaurant(): void {
+    this.selectedRestaurant = this.restaurantService.getSelectedRestaurant();
   }
 
-  manageRestaurant(restaurantId: number): void {
+  manageRestaurant(restaurantId: number, restaurant_address: string): void {
     localStorage.setItem('restaurantId', String(restaurantId));
-    this.restaurantService.selectedRestaurant.Id = restaurantId;
-    localStorage.setItem('restaurant_address', JSON.stringify(this.selectedRestaurant.AddressString));
+    this.restaurantService.selectedRestaurant.id = restaurantId;
+    localStorage.setItem('restaurant_address', restaurant_address);
     this.router.navigate(['/manager', 'map']);
 
   }

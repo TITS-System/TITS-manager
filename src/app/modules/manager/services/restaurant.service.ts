@@ -18,22 +18,26 @@ export class RestaurantService {
 
 
   selectedRestaurant: RestaurantInterface = {
-    Id: 0,
-    AddressString: '',
-    LocationLatLng: {Lat: 0, Lng: 0},
+    id: 0,
+    addressString: '',
+    locationLatLng: {Lat: 0, Lng: 0},
   };
 
 
   restaurants: RestaurantInterface[] = [];
 
   isRestaurantSelected(): boolean {
-    return !!this.selectedRestaurant.Id || !!localStorage.getItem('restaurantId');
+    console.log(this.selectedRestaurant.id);
+    console.log(this.selectedRestaurant.addressString);
+
+    // tslint:disable-next-line:triple-equals
+    return !!localStorage.getItem('restaurantId') && localStorage.getItem('restaurant_address') != '';
   }
 
 
   getSelectedRestaurantId(): number {
-    if (this.selectedRestaurant.Id) {
-      return this.selectedRestaurant.Id;
+    if (this.selectedRestaurant.id) {
+      return this.selectedRestaurant.id;
     } else if (!!localStorage.getItem('restaurantId')) {
       // @ts-ignore
       return +localStorage.getItem(`restaurantId`);
@@ -50,20 +54,15 @@ export class RestaurantService {
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json').append('auth-token', token);
 
-    this.http.get<RestaurantInterface[]>(`${environment.apiUrl}/${this.postfix}/getall`, {headers}).subscribe(
-      responseData => {
-        this.restaurants = responseData;
-      },
-      error => {
-        alert(`error: ${error.status}, ${error.statusText}`);
-      }
-    );
+    // tslint:disable-next-line:max-line-length
+    const response = await this.http.get<{ restaurants: RestaurantInterface[] }>(`${environment.apiUrl}/${this.postfix}/getall`, {headers}).toPromise();
+    this.restaurants = response.restaurants;
 
     return this.restaurants;
   }
 
 
-  async getSelectedRestaurant(): Promise<RestaurantInterface> {
+  getSelectedRestaurant(): RestaurantInterface {
 
     const restaurantId = this.getSelectedRestaurantId();
     const token = localStorage.getItem(`token`) || '';
