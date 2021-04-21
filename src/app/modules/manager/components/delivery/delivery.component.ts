@@ -37,8 +37,11 @@ export class DeliveryComponent implements OnInit {
       Status: DeliveryStatus.Delivering
     },
     {
+      // tslint:disable-next-line:max-line-length
       Id: 4, OrderId: 321, CourierUsername: 'Vlad', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
+    // tslint:disable-next-line:max-line-length
     {Id: 5, OrderId: 321, CourierUsername: 'Egor', TimeRange: {BeginAt: Date.now() - 100000000, FinishAt: Date.now() + 1500000000}, Status: DeliveryStatus.Cancelled},
+    // tslint:disable-next-line:max-line-length
     {Id: 8, OrderId: 321, CourierUsername: 'Gena', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
     {
       Id: 6,
@@ -47,6 +50,7 @@ export class DeliveryComponent implements OnInit {
       TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()},
       Status: DeliveryStatus.Cancelled
     },
+    // tslint:disable-next-line:max-line-length
     {Id: 7, OrderId: 321, CourierUsername: 'Petr', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
   ];
 

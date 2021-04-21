@@ -17,6 +17,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FormsModule} from '@angular/forms';
 import {FilterCouriersPipe} from './components/courier/filterCouriers.pipe';
 import {DeliveryStatus} from '../../shared/enums/delivery.enum';
+import {MatCardModule} from '@angular/material/card';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import {DeliveryStatus} from '../../shared/enums/delivery.enum';
     MatTableModule,
     MatSortModule,
     MatSlideToggleModule,
-    FormsModule
+    FormsModule,
+    MatCardModule
   ]
 })
 export class ManagerModule {
