@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 
 import {} from 'googlemaps';
+import {HttpClient} from '@angular/common/http';
+import {GetCouriersResultInterface} from '../../../../shared/interfaces/getCouriersResult.interface';
+import {environment} from '../../../../../environments/environment';
+import {CourierAccountInterface} from '../../../../shared/interfaces/courierAccount.interface';
 
 @Component({
   selector: 'app-map',
@@ -8,16 +12,17 @@ import {} from 'googlemaps';
   styleUrls: ['./map.component.sass']
 })
 export class MapComponent implements OnInit {
+  private resCouriers: GetCouriersResultInterface;
 
   // Initialize and add the map
   initMap(): void {
-    // The location of Uluru
-    const uluru = {lat: -25.344, lng: 131.036};
+    // The location of Uluru 53.241462, 34.361686
+    const uluru = {lat: 53.241462, lng: 34.361686};
     // The map, centered at Uluru
     const map = new google.maps.Map(
       document.getElementById('map') as HTMLElement,
       {
-        zoom: 4,
+        zoom: 11,
         center: uluru,
       }
     );
@@ -27,9 +32,29 @@ export class MapComponent implements OnInit {
       position: uluru,
       map,
     });
+
+    this.getCouriersByRes(1, map);
   }
 
-  constructor() {
+
+  getCouriersByRes(restId: number, map: any): void {
+    this.httpClient.get(`${environment.apiUrl}/Courier/GetAllByRestaurant?restaurantId=${restId}`).subscribe((response: any) => {
+      this.resCouriers = response;
+      this.resCouriers.Couriers.forEach((e) => {
+          console.log('some log');
+          const marker = new google.maps.Marker({
+            position: {lat: e.LastLatLng.Lat, lng: e.LastLatLng.Lng},
+            map,
+          });
+        }
+      )
+      ;
+    });
+  }
+
+
+  constructor(private httpClient: HttpClient) {
+    this.resCouriers = {Couriers: []};
   }
 
   ngOnInit(): void {
