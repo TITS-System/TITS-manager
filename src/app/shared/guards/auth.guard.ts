@@ -19,7 +19,6 @@ export class AuthGuard implements CanActivate {
     console.log('started canActivate');
 
     if (this.accountService.isLoggedIn()) {
-      // this.accountService.loadRoles();
       return true;
 
     } else {

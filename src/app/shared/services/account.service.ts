@@ -43,6 +43,7 @@ export class AccountService {
   get token(): string {
     if (!this._token) {
       this._token = localStorage.getItem('token') + '';
+
     }
     return this._token;
   }
@@ -78,7 +79,7 @@ export class AccountService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.token;
+    return !!this.token || localStorage.getItem('token') === null;
   }
 
   loadRolesAndCheck(role: string): Promise<boolean> {

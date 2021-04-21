@@ -5,6 +5,7 @@ import {AccountService} from 'src/app/shared/services/account.service';
 import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {CourierInterface} from 'src/app/shared/interfaces/courier.interface';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class RestaurantService {
@@ -47,18 +48,30 @@ export class RestaurantService {
   }
 
 
-  async getAllRestaurants(): Promise<RestaurantInterface[]> {
+  getAllRestaurants(): Observable<any> {
 
     const token = this.as.token;
     console.log(token);
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json').append('auth-token', token);
 
-    // tslint:disable-next-line:max-line-length
-    const response = await this.http.get<{ restaurants: RestaurantInterface[] }>(`${environment.apiUrl}/${this.postfix}/getall`, {headers}).toPromise();
-    this.restaurants = response.restaurants;
 
-    return this.restaurants;
+    // @ts-ignore
+    return this.http.get(`${environment.apiUrl}/${this.postfix}/getall`, {headers})
+      .pipe(
+        map((restaurants: any) => {
+            this.restaurants = restaurants.restaurants;
+            console.log(this.restaurants);
+        })
+      );
+    // tslint:disable-next-line:max-line-length
+    // const response = await this.http.get<{ restaurants: RestaurantInterface[] }>(`${environment.apiUrl}/${this.postfix}/getall`, {headers}).toPromise();
+
+
+
+    // this.restaurants = response.restaurants;
+
+    // return this.restaurants;
   }
 
 

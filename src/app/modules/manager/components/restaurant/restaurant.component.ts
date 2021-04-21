@@ -19,23 +19,28 @@ export class RestaurantComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getRestaurants().then(r => console.log(r));
+    this.loadRestaurants();
   }
 
-  async getRestaurants(): Promise<RestaurantInterface[]> {
-    this.restaurants = await this.restaurantService.getAllRestaurants();
+  loadRestaurants(): void {
+    // this.restaurants = await this.restaurantService.getAllRestaurants();
+    this.restaurantService.getAllRestaurants()
+      .subscribe(() => {
+        this.restaurants = this.restaurantService.restaurants;
+      }, error => {
+        this.router.navigate(['/auth']);
+      });
     console.log(this.restaurants);
-    return this.restaurants;
   }
 
   getSelectedRestaurant(): void {
     this.selectedRestaurant = this.restaurantService.getSelectedRestaurant();
   }
 
-  manageRestaurant(restaurantId: number, restaurant_address: string): void {
+  manageRestaurant(restaurantId: number, restaurantAddress: string): void {
     localStorage.setItem('restaurantId', String(restaurantId));
     this.restaurantService.selectedRestaurant.id = restaurantId;
-    localStorage.setItem('restaurant_address', restaurant_address);
+    localStorage.setItem('restaurant_address', restaurantAddress);
     this.router.navigate(['/manager', 'map']);
 
   }

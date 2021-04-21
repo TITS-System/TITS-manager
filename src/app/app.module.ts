@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SelectRoleComponent } from './components/select-role/select-role.component';
 import { SharedModule } from './shared/modules/shared.module';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
+import {CustomDatePipe} from './shared/pipes/date.pipe';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 const INTERCEPTOR_PROVIDER: Provider = {
@@ -31,6 +32,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     PasswordInputComponent,
     CheckboxComponent,
     SelectRoleComponent,
+    CustomDatePipe
   ],
   imports: [
     BrowserModule,
