@@ -19,6 +19,8 @@ import {FilterCouriersPipe} from './components/courier/filterCouriers.pipe';
 import {DeliveryStatus} from '../../shared/enums/delivery.enum';
 import {MatCardModule} from '@angular/material/card';
 import {CustomDatePipe} from '../../shared/pipes/date.pipe';
+import {MatIconModule} from '@angular/material/icon';
+import {SharedWindowsModule} from '../../shared/modules/shared-windows.module';
 
 
 @NgModule({
@@ -34,6 +36,7 @@ import {CustomDatePipe} from '../../shared/pipes/date.pipe';
   ],
   providers: [RestaurantService, CustomDatePipe],
   imports: [
+    SharedWindowsModule,
     SharedModule,
     CommonModule,
     RouterModule.forChild([
@@ -55,7 +58,8 @@ import {CustomDatePipe} from '../../shared/pipes/date.pipe';
     MatSortModule,
     MatSlideToggleModule,
     FormsModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule
   ]
 })
 export class ManagerModule {

@@ -20,7 +20,7 @@ export class NavMenuComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.restaurantService.isRestaurantSelected()) {
-      this.router.navigate(['/manager', 'map']);
+      // this.router.navigate(['/manager', 'map']);
       return;
     }
 

@@ -41,6 +41,7 @@ export class RestaurantComponent implements OnInit {
     localStorage.setItem('restaurantId', String(restaurantId));
     this.restaurantService.selectedRestaurant.id = restaurantId;
     localStorage.setItem('restaurant_address', restaurantAddress);
+
     this.router.navigate(['/manager', 'map']);
 
   }

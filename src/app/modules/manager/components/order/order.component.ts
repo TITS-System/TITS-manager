@@ -1,16 +1,7 @@
-import {AfterViewInit, ViewChild, Component, OnInit} from '@angular/core';
-import {MatSlideToggleChange} from '@angular/material/slide-toggle';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {RouterLinkWithHref} from '@angular/router';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {CourierInterface} from '../../../../shared/interfaces/courier.interface';
-import {Router} from '@angular/router';
-import {MatCardModule} from '@angular/material/card';
+import {Component, OnInit} from '@angular/core';
 import {OrderInterface} from '../../../../shared/interfaces/order.interface';
 import {OrderService} from '../../services/order.service';
 import {RestaurantService} from '../../services/restaurant.service';
-
 
 @Component({
   selector: 'app-order',
@@ -31,6 +22,8 @@ export class OrderComponent implements OnInit {
   orders: OrderInterface[] = [];
   // tslint:disable-next-line:variable-name
   private _sortedOrders = [];
+
+
   search = '';
 
 
@@ -47,6 +40,16 @@ export class OrderComponent implements OnInit {
   }
 
 
+  // tslint:disable-next-line:variable-name
+  private _selectedOrderId = -1;
+  get selectedOrderId(): number {
+    return this._selectedOrderId;
+  }
+
+  set selectedOrderId(value: number) {
+    this._selectedOrderId = value;
+  }
+
   ngOnInit(): void {
     this.loadOrders();
   }
@@ -56,7 +59,6 @@ export class OrderComponent implements OnInit {
     this._orderService.loadOrdersByRestaurantId(restaurantId)
       .subscribe(() => {
         this.orders = this._orderService.orders;
-        console.table(this.orders);
       }, error => {
         console.log(error.message);
       });
@@ -72,11 +74,13 @@ export class OrderComponent implements OnInit {
     return propStr;
   }
 
-  // getDateString(beginAt: number): string {
-  //
-  // }
-
   openOrderById(OrderId: number): void {
+    this.selectedOrderId = OrderId;
+
+    this.showAbsoluteWindow();
+  }
+
+  showAbsoluteWindow(): void {
 
   }
 }

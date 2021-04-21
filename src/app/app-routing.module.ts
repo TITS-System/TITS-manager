@@ -11,6 +11,7 @@ const routes: Routes = [
   {path: 'auth', component: AuthComponent},
 
   {path: 'manager', loadChildren: () => import('./modules/manager/manager.module').then(m => m.ManagerModule), canActivate: [AuthGuard]}
+  // tslint:disable-next-line:max-line-length
   // {path: 'packer', loadChildren: () => import('./modules/packer/packer.module').then(m => m.PackerModule), canActivate: [RoleGuard], data: {role: Role.Packer}},
 ];
 
