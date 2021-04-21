@@ -15,14 +15,18 @@ import {Courier} from '../courier/courier.component';
 export class DeliveryComponent implements OnInit {
 
   ELEMENT_DATA: DeliveryInterface[] = [
-    {Id: 1, OrderId: 321, Username: 'Sasha', IsOnWork: true, Id: 372824},
-    {Id: 2, OrderId: 321, Username: 'Danya', IsOnWork: false, Id: 20223},
-    {Id: 3, OrderId: 321, Username: 'Pasha', IsOnWork: true, Id: 889432121},
-    {Id: 4, OrderId: 321, Username: 'Vlad', IsOnWork: true, Id: 2523},
-    {Id: 5, OrderId: 321, Username: 'Egor', IsOnWork: false, Id: 6345},
-    {Id: 8, OrderId: 321, Username: 'Gena', IsOnWork: false, Id: 7},
-    {Id: 6, OrderId: 321, Username: 'Alexei', IsOnWork: true, Id: 567},
-    {Id: 7, OrderId: 321, Username: 'Petr', IsOnWork: true, Id: 5674453},
+    {Id: 1, OrderId: 321, CourierUsername: 'Sasha', TimeRange: {BeginAt: new Date(), FinishAt: new Date()}, Status: DeliveryStatus.Finished },
+    {Id: 2, OrderId: 321, CourierUsername: 'Sasha', TimeRange: {BeginAt: new Date(), FinishAt: new Date()}, Status: DeliveryStatus.Finished },
+    {Id: 3, OrderId: 321, CourierUsername: 'Sasha', TimeRange: {BeginAt: new Date(), FinishAt: new Date()}, Status: DeliveryStatus.Finished },
+    {Id: 4, OrderId: 321, CourierUsername: 'Sasha', TimeRange: {BeginAt: new Date(), FinishAt: new Date()}, Status: DeliveryStatus.Finished },
+    {Id: 5, OrderId: 321, CourierUsername: 'Sasha', TimeRange: {BeginAt: new Date(), FinishAt: new Date()}, Status: DeliveryStatus.Finished },
+    {Id: 6, OrderId: 321, CourierUsername: 'Sasha', TimeRange: {BeginAt: new Date(), FinishAt: new Date()}, Status: DeliveryStatus.Finished },
+    {Id: 7, OrderId: 321, CourierUsername: 'Sasha', TimeRange: {BeginAt: new Date(), FinishAt: new Date()}, Status: DeliveryStatus.Finished },
+    {Id: 8, OrderId: 321, CourierUsername: 'Sasha', TimeRange: {BeginAt: new Date(), FinishAt: new Date()}, Status: DeliveryStatus.Finished },
+    {Id: 9, OrderId: 321, CourierUsername: 'Sasha', TimeRange: {BeginAt: new Date(), FinishAt: new Date()}, Status: DeliveryStatus.Finished },
+    {Id: 10, OrderId: 321, CourierUsername: 'Sasha', TimeRange: {BeginAt: new Date(), FinishAt: new Date()}, Status: DeliveryStatus.Finished },
+    {Id: 11, OrderId: 321, CourierUsername: 'Sasha', TimeRange: {BeginAt: new Date(), FinishAt: new Date()}, Status: DeliveryStatus.Finished },
+    
   ];
 
   constructor() { }

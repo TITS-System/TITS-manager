@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from 'src/environments/environment';
+import { loginDTO } from '../interfaces/loginDto.interface';
 import {Role} from '../interfaces/role.interface';
 import {WorkSessionService} from './worksession.service';
 
@@ -12,7 +13,7 @@ import {WorkSessionService} from './worksession.service';
 })
 export class AccountService {
 
-  postfix = 'WorkerAccount';
+  postfix = 'manager';
 
   private _userRoles: Role[] = [];
 
@@ -47,7 +48,7 @@ export class AccountService {
   }
 
 
-  login(loginData: any): Observable<any> {
+  login(loginData: loginDTO): Observable<any> {
     return this._httpClient.post(`${environment.apiUrl}/${this.postfix}/login`, loginData, {withCredentials: true})
       .pipe(
         map((response: any) => {

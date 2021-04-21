@@ -26,8 +26,8 @@ export class NavMenuComponent implements OnInit {
     this.router.navigate(['/manager', 'restaurants']);
   }
 
-  getSelectedRestaurantAddress(): string {
-    return this.restaurantService.getSelectedRestaurantAddress();
+   getSelectedRestaurantAddress(): string {
+    return localStorage.getItem('restaraunt_adress') || '';
   }
 
   changeRestaurant(): void {

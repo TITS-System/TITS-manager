@@ -9,8 +9,6 @@
       <td>
         <button mat-flat-button
                 class="manage-btn"
-                [disabled]="restaurant.isActivated"
-                [ngClass]="{'disabled-btn': restaurant.isActivated}"
                 (click)="manageRestaurant(restaurant.Id)"
         >
           Manage

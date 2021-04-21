@@ -3,5 +3,5 @@
 export interface RestaurantInterface {
   Id: number;
   AddressString: string;
-  LocationLatLng: { Lat: number, Lng: number }
+  LocationLatLng: { Lat: number, Lng: number };
 }
