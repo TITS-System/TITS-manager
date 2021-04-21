@@ -4,20 +4,20 @@
 
 
 <div class="orders-container">
-    <div class="card-wrapper">
+    <div class="card-wrapper" *ngFor="let order of sortedOrders">
       <mat-card class="card">
         <mat-card-header class="card-header">
-          <mat-card-title class="card-title">#00000001</mat-card-title>
+          <mat-card-title class="card-title"> #{{ getProperLink(order.id) }} </mat-card-title>
 
         </mat-card-header>
         <mat-card-content class="card-content">
           <span class="content-text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            {{ order.addressString }}
           </span>
         </mat-card-content>
         <mat-card-content class="card-footer">
           <span class="footer">
-            0001-01-01 понедельник 00:00:00
+            {{ order.creationDateTime }}
           </span>
         </mat-card-content>
       </mat-card>

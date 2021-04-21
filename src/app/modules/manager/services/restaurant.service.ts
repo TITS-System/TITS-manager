@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {CourierInterface} from 'src/app/shared/interfaces/courier.interface';
 import {map} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class RestaurantService {
@@ -13,7 +14,8 @@ export class RestaurantService {
   postfix = 'restaurant';
 
   constructor(private http: HttpClient,
-              private as: AccountService
+              private as: AccountService,
+              private router: Router
   ) {
   }
 
@@ -34,12 +36,12 @@ export class RestaurantService {
 
 
   getSelectedRestaurantId(): number {
-    if (this.selectedRestaurant.id) {
-      return this.selectedRestaurant.id;
-    } else if (!!localStorage.getItem('restaurantId')) {
+    if (!!localStorage.getItem('restaurantId')) {
       // @ts-ignore
       return +localStorage.getItem(`restaurantId`);
     }
+
+    this.as.logout(); // Goes to '/auth'
 
     return 0;
   }
@@ -57,13 +59,12 @@ export class RestaurantService {
     return this.http.get(`${environment.apiUrl}/${this.postfix}/getall`, {headers})
       .pipe(
         map((restaurants: any) => {
-            this.restaurants = restaurants.restaurants;
-            console.log(this.restaurants);
+          this.restaurants = restaurants.restaurants;
+          console.log(this.restaurants);
         })
       );
     // tslint:disable-next-line:max-line-length
     // const response = await this.http.get<{ restaurants: RestaurantInterface[] }>(`${environment.apiUrl}/${this.postfix}/getall`, {headers}).toPromise();
-
 
 
     // this.restaurants = response.restaurants;
