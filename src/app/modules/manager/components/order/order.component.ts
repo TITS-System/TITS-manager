@@ -85,7 +85,7 @@ export class OrderComponent implements OnInit {
   }
 
   hideOrderById(): void {
-    (document.querySelector('.absolute-window') as HTMLElement).style.transition = '1s';
+    (document.querySelector('.absolute-window') as HTMLElement).style.transition = '0.66s';
     (document.querySelector('.absolute-window') as HTMLElement).style.left = '100%';
   }
 }
