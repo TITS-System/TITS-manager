@@ -7,7 +7,7 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import { RoleGuard } from './shared/guards/role.guard';
 
 const routes: Routes = [
-  {path: '', component: SelectRoleComponent, canActivate: [AuthGuard]},
+  {path: '', component: AuthComponent, canActivate: [AuthGuard]},
   {path: 'auth', component: AuthComponent},
 
   {path: 'manager', loadChildren: () => import('./modules/manager/manager.module').then(m => m.ManagerModule), canActivate: [AuthGuard]}
