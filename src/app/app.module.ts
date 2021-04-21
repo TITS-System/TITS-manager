@@ -30,7 +30,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     LoginInputComponent,
     PasswordInputComponent,
     CheckboxComponent,
-    SelectRoleComponent
+    SelectRoleComponent,
   ],
   imports: [
     BrowserModule,

@@ -14,6 +14,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {FormsModule} from '@angular/forms';
+import {FilterCouriersPipe} from './components/courier/filterCouriers.pipe';
+import {DeliveryStatus} from '../../shared/enums/delivery.enum';
 
 
 @NgModule({
@@ -24,7 +27,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     CourierComponent,
     OrderComponent,
     DeliveryComponent,
-    ProfileComponent
+    ProfileComponent,
+    FilterCouriersPipe
   ],
   providers: [RestaurantService],
   imports: [
@@ -47,7 +51,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatButtonModule,
     MatTableModule,
     MatSortModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    FormsModule
   ]
 })
 export class ManagerModule {

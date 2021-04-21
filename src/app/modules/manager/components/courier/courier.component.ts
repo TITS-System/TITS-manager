@@ -14,6 +14,18 @@ export interface Courier extends CourierInterface {
   styleUrls: ['./courier.component.sass']
 })
 export class CourierComponent implements OnInit {
+  search = '';
+
+  get dataSource() {
+    if (!this.search) {
+      return new MatTableDataSource(this.ELEMENT_DATA);
+    }
+
+    return new MatTableDataSource(this.ELEMENT_DATA.filter((c: CourierInterface) =>
+      c.Id.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+      c.Username.toLowerCase().indexOf(this.search.toLowerCase()) > -1));
+  }
+
 
   ELEMENT_DATA: Courier[] = [
     {Position: 1, Username: 'Sasha', IsOnWork: true, Id: 372824},
@@ -27,7 +39,9 @@ export class CourierComponent implements OnInit {
   ];
 
   displayedColumns: string[] = ['Position', 'Username', 'IsOnWork', 'Id'];
-  dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+  // dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+
+  private _dataSource: any;
 
   // @ts-ignore
   @ViewChild(MatSort) sort: MatSort;
@@ -38,9 +52,6 @@ export class CourierComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-  }
 
   openCourierPage(courierId: number) {
 

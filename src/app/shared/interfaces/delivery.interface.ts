@@ -5,8 +5,8 @@ export interface DeliveryInterface {
   OrderId: number;
   CourierUsername: string;
   TimeRange: {
-    BeginAt: Date,
-    FinishAt: Date
+    BeginAt: number,
+    FinishAt: number
   };
   Status: DeliveryStatus;
 }
