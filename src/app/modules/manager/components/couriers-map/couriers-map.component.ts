@@ -23,7 +23,8 @@ export class CouriersMapComponent implements OnInit {
 
   private baseZoom = 11;
 
-  private courierMarkers?: [{ courier: CourierAccountInterface, marker: google.maps.Marker }];
+  private courierMarkers: { courier: CourierAccountInterface, marker: google.maps.Marker }[] = [];
+
   // The marker, positioned at Uluru
   private restaurantMarker?: google.maps.Marker;
 
@@ -36,45 +37,37 @@ export class CouriersMapComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     this.httpClient.get(`${environment.apiUrl}/Courier/GetAllByRestaurant?restaurantId=${restaurantId}`, {headers})
       .subscribe((response: any) => {
-        this.resCouriers = response;
+          this.resCouriers = response;
 
-        const oldMarkers = [...this?.courierMarkers ?? []];
+          this.courierMarkers.forEach(pair => {
+            pair.marker.setMap(null);
+          });
+          this.courierMarkers = [];
+          
+          let i = 0;
+          this.resCouriers.couriers.forEach((courier) => {
+              const marker = new google.maps.Marker({
+                position: {lat: courier.lastLatLng.lat, lng: courier.lastLatLng.lng},
+                map,
+                icon: {
+                  url: this.defaultCourierIconUrl,
+                  anchor: new google.maps.Point(29, 29)
+                },
+                title: courier.username,
+                clickable: true
+              });
 
-        // clear
-        if (this.courierMarkers != null) {
-          // @ts-ignore
-          this.courierMarkers.length = 0;
+              this.courierMarkers?.push({courier, marker});
+
+              const localCourier = courier;
+              google.maps.event.addListener(marker, 'click', () => {
+                this.openModalForCourier(localCourier);
+              });
+            }
+          );
+          this.performMarkerScaling();
         }
-
-        let i = 0;
-        this.resCouriers.couriers.forEach((courier) => {
-            const marker = new google.maps.Marker({
-              position: {lat: courier.lastLatLng.lat, lng: courier.lastLatLng.lng},
-              map,
-              icon: {
-                url: this.defaultCourierIconUrl,
-                anchor: new google.maps.Point(29, 29)
-              },
-              title: courier.username,
-              clickable: true
-            });
-
-            this.courierMarkers?.push({courier, marker});
-
-            const localCourier = courier;
-            google.maps.event.addListener(marker, 'click', () => {
-              this.openModalForCourier(localCourier);
-            });
-          }
-        );
-        // do scale
-        this.performMarkerScaling();
-
-        // inbind from map
-        oldMarkers.forEach(pair => {
-          pair.marker.setMap(null);
-        });
-      });
+      );
   }
 
   openModalForCourier(courier: CourierAccountInterface): void {
