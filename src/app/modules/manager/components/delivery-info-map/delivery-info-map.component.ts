@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {} from 'googlemaps';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {GetCouriersResultInterface} from '../../../../shared/interfaces/getCouriersResult.interface';
-import {environment} from '../../../../../environments/environment';
-import {CourierAccountInterface} from '../../../../shared/interfaces/courierAccount.interface';
-import {RestaurantService} from '../../services/restaurant.service';
-import {OrderInterface} from '../../../../shared/interfaces/order.interface';
+import { } from 'googlemaps';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { GetCouriersResultInterface } from '../../../../shared/interfaces/getCouriersResult.interface';
+import { environment } from '../../../../../environments/environment';
+import { CourierAccountInterface } from '../../../../shared/interfaces/courierAccount.interface';
+import { RestaurantService } from '../../services/restaurant.service';
+import { OrderInterface } from '../../../../shared/interfaces/order.interface';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-map',
@@ -20,7 +21,7 @@ export class DeliveryInfoMapComponent implements OnInit {
 
   private defaultRestaurantIconUrl = './assets/icons/restaurant-icon_3.svg';
 
-  private mapCenter = {lat: 53.241462, lng: 34.361686};
+  private mapCenter = { lat: 53.241462, lng: 34.361686 };
 
   private baseZoom = 11;
 
@@ -36,7 +37,7 @@ export class DeliveryInfoMapComponent implements OnInit {
     const token = localStorage.getItem(`token`) || '';
     const headers = new HttpHeaders().set('auth-token', token);
     // tslint:disable-next-line:max-line-length
-    this.httpClient.get(`${environment.apiUrl}/delivery/mgetlocations?deliveryid=${deliveryId}`, {headers})
+    this.httpClient.get(`${environment.apiUrl}/delivery/mgetlocations?deliveryid=${deliveryId}`, { headers })
       .subscribe((response: any) => {
         this.latLngsDto = response;
 
@@ -61,10 +62,12 @@ export class DeliveryInfoMapComponent implements OnInit {
   }
 
   constructor(private httpClient: HttpClient,
-              // tslint:disable-next-line:variable-name
-              private _restaurantService: RestaurantService
+    // tslint:disable-next-line:variable-name
+    private _restaurantService: RestaurantService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
-    this.latLngsDto = {latLngs: [{lat: 0, lng: 0}]};
+    this.latLngsDto = { latLngs: [{ lat: 0, lng: 0 }] };
   }
 
   performMarkerScaling(): void {
@@ -78,6 +81,10 @@ export class DeliveryInfoMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.deliveryId = params['id'];
+      this.loadLocations(this.deliveryId ?? 0, this.map);
+    });
     this.map = new google.maps.Map(
       document.getElementById('map') as HTMLElement,
       {

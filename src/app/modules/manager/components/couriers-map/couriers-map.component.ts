@@ -63,7 +63,7 @@ export class CouriersMapComponent implements OnInit {
           });
           this.courierMarkers = [];
 
-          this.resCouriers.couriers.forEach((courier) => {
+          this.resCouriers.couriers.filter(c=>c.lastLatLng != null).forEach((courier) => {
               const marker = new google.maps.Marker({
                 position: {lat: courier.lastLatLng.lat, lng: courier.lastLatLng.lng},
                 map,

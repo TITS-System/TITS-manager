@@ -126,4 +126,12 @@ export class CourierComponent implements OnInit {
     }
   }
 
+  seedCourier(): void {
+    const token = localStorage.getItem(`token`) || '';
+    const headers = new HttpHeaders().set('auth-token', token);
+    this.httpClient.get(`${environment.apiUrl}/courier/seedcourier`, { headers })
+      .subscribe((response: any) => {
+        this.reloadCouriers();
+      });
+  }
 }

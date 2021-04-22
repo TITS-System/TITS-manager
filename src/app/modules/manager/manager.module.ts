@@ -46,6 +46,8 @@ import {CourierProfileComponent} from '../../shared/components/courier-profile/c
       {
         path: '', component: NavMenuComponent, children: [
           {path: 'map', component: CouriersMapComponent},
+          {path: 'map2/:id', component: DeliveryInfoMapComponent},
+          {path: 'map3', component: ZoneMap},
           {path: 'couriers', component: CourierComponent},
           {path: 'couriers/:id', component: CourierProfileComponent},
           {path: 'orders', component: OrderComponent},
