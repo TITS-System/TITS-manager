@@ -38,7 +38,7 @@
           <span>Automatic distribution</span>
         </div>
         <div class="toggle-wrapper">
-          <mat-slide-toggle color="accent" class="toggle-work"></mat-slide-toggle>
+          <mat-slide-toggle color="accent" class="toggle-work" [(ngModel)]="autoDistribution" (change)="toggelAutoDistribution()"></mat-slide-toggle>
         </div>
       </div>
     </div>

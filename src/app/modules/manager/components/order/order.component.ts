@@ -1,8 +1,10 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import {OrderInterface} from '../../../../shared/interfaces/order.interface';
-import {OrderService} from '../../services/order.service';
-import {RestaurantService} from '../../services/restaurant.service';
-import {CourierInterface} from '../../../../shared/interfaces/courier.interface';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { OrderInterface } from '../../../../shared/interfaces/order.interface';
+import { OrderService } from '../../services/order.service';
+import { RestaurantService } from '../../services/restaurant.service';
+import { CourierInterface } from '../../../../shared/interfaces/courier.interface';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-order',
@@ -15,7 +17,8 @@ export class OrderComponent implements OnInit {
     // tslint:disable-next-line:variable-name
     private _orderService: OrderService,
     // tslint:disable-next-line:variable-name
-    private _restaurantService: RestaurantService
+    private _restaurantService: RestaurantService,
+    private httpClient: HttpClient
   ) {
   }
 
@@ -53,6 +56,13 @@ export class OrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadOrders();
+    const token = localStorage.getItem(`token`) || '';
+    const headers = new HttpHeaders().set('auth-token', token);
+
+    this.httpClient.get(`${environment.apiUrl}/AutoDeliveryServer/getstate?restaurantId=${this._restaurantService.getSelectedRestaurantId()}`, { headers })
+      .subscribe((response: any) => {
+        this.autoDistribution = response;
+      });
   }
 
   loadOrders(): void {
@@ -87,5 +97,23 @@ export class OrderComponent implements OnInit {
 
   hideOrderById(): void {
     (document.querySelector('.absolute-window') as HTMLElement).style.left = '100%';
+  }
+
+  autoDistribution: boolean = false;
+
+  toggelAutoDistribution(): void {
+    const token = localStorage.getItem(`token`) || '';
+    const headers = new HttpHeaders().set('auth-token', token);
+
+    if (this.autoDistribution) {
+      this.httpClient.get(`${environment.apiUrl}/AutoDeliveryServer/enable?restaurantId=${this._restaurantService.getSelectedRestaurantId()}`, { headers })
+        .subscribe((response: any) => {
+        });
+    }
+    else {
+      this.httpClient.get(`${environment.apiUrl}/AutoDeliveryServer/disable?restaurantId=${this._restaurantService.getSelectedRestaurantId()}`, { headers })
+        .subscribe((response: any) => {
+        });
+    }
   }
 }
