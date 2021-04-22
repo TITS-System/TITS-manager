@@ -23,7 +23,7 @@ export class CouriersMapComponent implements OnInit {
 
   private baseZoom = 11;
 
-  private courierMarkers: google.maps.Marker[] = [];
+  private courierMarkers?: [{ courier: CourierAccountInterface, marker: google.maps.Marker }];
   // The marker, positioned at Uluru
   private restaurantMarker?: google.maps.Marker;
 
@@ -38,32 +38,48 @@ export class CouriersMapComponent implements OnInit {
       .subscribe((response: any) => {
         this.resCouriers = response;
 
-        const oldMarkers = [...this.courierMarkers];
+        const oldMarkers = [...this?.courierMarkers ?? []];
 
         // clear
-        this.courierMarkers = [];
-        this.resCouriers.couriers.forEach((e) => {
+        if (this.courierMarkers != null) {
+          // @ts-ignore
+          this.courierMarkers.length = 0;
+        }
+
+        let i = 0;
+        this.resCouriers.couriers.forEach((courier) => {
             const marker = new google.maps.Marker({
-              position: {lat: e.lastLatLng.lat, lng: e.lastLatLng.lng},
+              position: {lat: courier.lastLatLng.lat, lng: courier.lastLatLng.lng},
               map,
               icon: {
                 url: this.defaultCourierIconUrl,
                 anchor: new google.maps.Point(29, 29)
-              }
+              },
+              title: courier.username,
+              clickable: true
             });
-            this.courierMarkers.push(marker);
+
+            this.courierMarkers?.push({courier, marker});
+
+            const localCourier = courier;
+            google.maps.event.addListener(marker, 'click', () => {
+              this.openModalForCourier(localCourier);
+            });
           }
         );
         // do scale
         this.performMarkerScaling();
 
         // inbind from map
-        oldMarkers.forEach(m => {
-          m.setMap(null);
+        oldMarkers.forEach(pair => {
+          pair.marker.setMap(null);
         });
       });
   }
 
+  openModalForCourier(courier: CourierAccountInterface): void {
+    // TODO: OPEN MODAL
+  }
 
   constructor(private httpClient: HttpClient,
               // tslint:disable-next-line:variable-name
@@ -74,8 +90,8 @@ export class CouriersMapComponent implements OnInit {
 
   performMarkerScaling(): void {
     const scaleFactor = ((this.map?.getZoom() ?? 0) - 3) / this.baseZoom;
-    this.courierMarkers.forEach((m) => {
-      m.setIcon({
+    this.courierMarkers?.forEach((pair) => {
+      pair.marker.setIcon({
         url: this.defaultCourierIconUrl,
         anchor: new google.maps.Point(29 * scaleFactor, 29 * scaleFactor),
         scaledSize: new google.maps.Size(58 * scaleFactor, 58 * scaleFactor)

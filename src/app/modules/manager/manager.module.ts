@@ -44,7 +44,7 @@ import {DeliveryInfoMapComponent} from './components/delivery-info-map/delivery-
     RouterModule.forChild([
       {
         path: '', component: NavMenuComponent, children: [
-          {path: 'map', component: DeliveryInfoMapComponent},
+          {path: 'map', component: CouriersMapComponent},
           {path: 'couriers', component: CourierComponent},
           {path: 'orders', component: OrderComponent},
           {path: 'deliveries', component: DeliveryComponent},
