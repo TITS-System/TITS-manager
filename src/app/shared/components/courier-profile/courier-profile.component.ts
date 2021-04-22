@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CourierInterface } from '../../interfaces/courier.interface';
@@ -14,7 +14,8 @@ export class CourierProfileComponent implements OnInit {
 
   constructor(
     private httpClient: HttpClient,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.courier = {
       id: -1,
@@ -52,6 +53,6 @@ export class CourierProfileComponent implements OnInit {
   }
 
   hide(): void {
-
+    this.router.navigate(['/manager', 'couriers']);
   }
 }

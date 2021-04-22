@@ -35,6 +35,16 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+  <div class="add-btn-container">
+    <div class="example-button-container" style="display: flex; justify-content: center; align-items: center; margin-top: 30px;">
+      <button mat-fab class="add-btn" aria-label="Example icon button with a bookmark icon">
+        <span class="material-icons">
+          add
+        </span>
+      </button>
+    </div>
+  </div>
 </div>
 
 <!--<div class="absolute-window">-->
