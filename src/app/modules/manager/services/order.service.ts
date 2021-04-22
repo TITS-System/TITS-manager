@@ -17,11 +17,13 @@ export class OrderService {
   postfix = 'order';
 
   // tslint:disable-next-line:variable-name
-  private _orders: OrderInterface[] = [];
+  private _orders: FullOrderInterface[] = [];
 
-  private _currentOrder: OrderInterface = {
+  private _currentOrder: FullOrderInterface = {
     id: -1,
     addressString: '',
+    addressAdditional: '',
+    content: '',
     creationDateTime: ''
   };
   private _fullOrder: FullOrderInterface = {
@@ -77,7 +79,7 @@ export class OrderService {
     return this._httpClient.get(`${environment.apiUrl}/${this.postfix}/MGetInfo?orderId=${id}`, {withCredentials: true})
       .pipe(
         map((response: any) => {
-          this._currentOrder = response.order;
+          this._currentOrder = response;
         })
       );
   }
@@ -86,7 +88,7 @@ export class OrderService {
     return this._httpClient.get(`${environment.apiUrl}/${this.postfix}/MGetInfo?orderId=${id}`, {withCredentials: true})
       .pipe(
         map((response: any) => {
-          this._fullOrder = response.order;
+          this._fullOrder = response;
         })
       );
   }

@@ -67,6 +67,7 @@ export class OrderComponent implements OnInit {
 
   loadOrders(): void {
     const restaurantId = this._restaurantService.getSelectedRestaurantId();
+
     this._orderService.loadOrdersByRestaurantId(restaurantId)
       .subscribe(() => {
         this.orders = this._orderService.orders;

@@ -29,7 +29,7 @@ export class DeliveryService {
 
 
     // @ts-ignore
-    return this.http.get(`${environment.apiUrl}/${this.postfix}/`, {headers})
+    return this.http.get(`${environment.apiUrl}/${this.postfix}/GetByOrder/?orderId=${orderId}`, {headers})
       .pipe(
         map((deliveries: any) => {
           this.deliveries = deliveries.deliveries;

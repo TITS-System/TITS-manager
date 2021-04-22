@@ -73,8 +73,8 @@ export class OrderByIdComponent implements OnInit {
   private _sortedOrders = [];
 
   ngOnInit(): void {
-    this.loadDeliveryById();
-    this.loadDeliveriesByOrderId(this.selectedOrderId);
+    this.loadOrderById();
+    // this.loadDeliveriesByOrderId(this.selectedOrderId);
     console.table(this.deliveries);
   }
 
@@ -83,6 +83,7 @@ export class OrderByIdComponent implements OnInit {
     this._deliveriesService.getDeliveriesByOrderId(orderId)
       .subscribe(() => {
         this._deliveries = this._deliveriesService.deliveries;
+        console.log(this._deliveries);
       }, error => {
         console.log(error.message);
       });
@@ -110,21 +111,26 @@ export class OrderByIdComponent implements OnInit {
     this.router.navigate(['/manager', 'couriers', `${id}`]);
   }
 
-  private loadDeliveryById(): void {
-    this._orderService.loadOrderById(this.selectedOrderId)
-      .subscribe(() => {
-        this.currentOrder = this._orderService.currentOrder;
-      }, error => {
-        console.log(error.message);
-      });
+  private loadOrderById(): void {
+    if (this.selectedOrderId != -1) {
+      this._orderService.loadOrderById(this.selectedOrderId)
+        .subscribe(() => {
+          this.currentOrder = this._orderService.currentOrder;
+        }, error => {
+          console.log(error.message);
+        });
+    }
   }
 
   private loadFullOrderById(): void {
-    this._orderService.loadFullOrderById(this.selectedOrderId)
-      .subscribe(() => {
-        this.currentOrder = this._orderService.currentOrder;
-      }, error => {
-        console.log(error.message);
-      });
+    if (this.selectedOrderId != -1) {
+      this._orderService.loadFullOrderById(this.selectedOrderId)
+        .subscribe(() => {
+          this.currentOrder = this._orderService.currentOrder;
+        }, error => {
+          console.log(error.message);
+        });
+    }
   }
+
 }

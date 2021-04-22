@@ -6,6 +6,9 @@ import {MatTableDataSource} from '@angular/material/table';
 import {CourierInterface} from '../../../../shared/interfaces/courier.interface';
 import {Router} from '@angular/router';
 import {RestaurantInterface} from '../../../../shared/interfaces/restaurant.interface';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {environment} from '../../../../../environments/environment';
+import {RestaurantService} from '../../services/restaurant.service';
 
 
 @Component({
@@ -15,7 +18,17 @@ import {RestaurantInterface} from '../../../../shared/interfaces/restaurant.inte
 })
 export class DeliveryComponent implements OnInit {
 
-  deliveries: DeliveryInterface[] = [];
+  deliveries: {
+    id:number;
+    orderId:number;
+    courierId: number;
+    courierUsername:string;
+    startTime:string;
+    endTime:string;
+    status:string;
+  }[] = [
+
+  ];
   // tslint:disable-next-line:variable-name
   private _sortedOrders = [];
 
@@ -28,12 +41,11 @@ export class DeliveryComponent implements OnInit {
 
     return new MatTableDataSource(
       this.deliveries.filter((c: DeliveryInterface) =>
-        c.Id.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
-        c.OrderId.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
-        c.CourierUsername.toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
-        new Date(c.TimeRange.BeginAt).toDateString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
-        new Date(c.TimeRange.FinishAt).toDateString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
-        c.Status.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1));
+        c.id.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+        c.orderId.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+        c.courierUsername.toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+        c.startTime.toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+        c.status.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1));
   }
 
   displayedColumns: string[] = [
@@ -44,15 +56,23 @@ export class DeliveryComponent implements OnInit {
     'Status'
   ];
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private httpClient: HttpClient,
+              private restaurantService: RestaurantService
+  ) {
   }
 
   ngOnInit(): void {
     this.loadDeliveries();
   }
 
-  loadDeliveries(): void {
-
+  private loadDeliveries(): void {
+    const token = localStorage.getItem(`token`) || '';
+    const headers = new HttpHeaders().set('auth-token', token);
+    this.httpClient.get(`${environment.apiUrl}/delivery/GetByRestaurantId?restaurantId=${this.restaurantService.getSelectedRestaurantId()}`, { headers })
+      .subscribe((response: any) => {
+        this.deliveries = response.deliveries;
+      });
   }
 
   getProperLink(id: number): string {
