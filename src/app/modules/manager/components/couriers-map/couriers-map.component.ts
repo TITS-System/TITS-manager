@@ -13,6 +13,14 @@ import {RestaurantService} from '../../services/restaurant.service';
   styleUrls: ['./couriers-map.component.sass']
 })
 export class CouriersMapComponent implements OnInit {
+
+  constructor(private httpClient: HttpClient,
+              // tslint:disable-next-line:variable-name
+              private _restaurantService: RestaurantService
+  ) {
+    this.resCouriers = {couriers: []};
+  }
+
   private resCouriers: GetCouriersResultInterface;
 
   private defaultCourierIconUrl = './assets/icons/point.svg';
@@ -30,12 +38,23 @@ export class CouriersMapComponent implements OnInit {
 
   private map?: google.maps.Map;
 
+  private isSelected = false;
+
+  isHidden = true;
+
+  modalMenuBtnLocationTop = 25;
+  modalMenuBtnLocationRight = 25;
+  modalMenuLocationRight = '-100';
+  modalMenuLocationTop = 0;
+
+  corsToShowInModal: CourierAccountInterface[] = [];
+
   getCouriersByRestaurant(restaurantId: number, map: any): void {
     const token = localStorage.getItem(`token`) || '';
-    const headers = new HttpHeaders().set('auth-token', token);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json').append('auth-token', token);
 
     // tslint:disable-next-line:max-line-length
-    this.httpClient.get(`${environment.apiUrl}/Courier/GetAllByRestaurant?restaurantId=${restaurantId}`, {headers})
+    this.httpClient.get(`${environment.apiUrl}/Courier/MGetAllByRestaurant?restaurantId=${restaurantId}`, {headers})
       .subscribe((response: any) => {
           this.resCouriers = response;
 
@@ -43,8 +62,7 @@ export class CouriersMapComponent implements OnInit {
             pair.marker.setMap(null);
           });
           this.courierMarkers = [];
-          
-          let i = 0;
+
           this.resCouriers.couriers.forEach((courier) => {
               const marker = new google.maps.Marker({
                 position: {lat: courier.lastLatLng.lat, lng: courier.lastLatLng.lng},
@@ -70,15 +88,10 @@ export class CouriersMapComponent implements OnInit {
       );
   }
 
-  openModalForCourier(courier: CourierAccountInterface): void {
-    // TODO: OPEN MODAL
-  }
 
-  constructor(private httpClient: HttpClient,
-              // tslint:disable-next-line:variable-name
-              private _restaurantService: RestaurantService
-  ) {
-    this.resCouriers = {couriers: []};
+  openModalForCourier(courier: CourierAccountInterface): void {
+    this.corsToShowInModal = this.resCouriers.couriers.filter(c => c.id === courier.id);
+    this.isSelected = true;
   }
 
   performMarkerScaling(): void {
@@ -110,13 +123,23 @@ export class CouriersMapComponent implements OnInit {
       this.performMarkerScaling();
     });
 
+
     setInterval(() => {
       this.getCouriersByRestaurant(this._restaurantService.getSelectedRestaurantId(), this.map);
+      this.updateCorToShow();
       console.log('Reload');
     }, 3000);
   }
 
+  private updateCorToShow(): void {
+    if (!this.isSelected) {
+      this.corsToShowInModal = this.resCouriers.couriers;
+    }
+  }
+
   // Initialize and add the couriers-map
+
+
   initMap(): void {
     this.restaurantMarker = new google.maps.Marker({
       position: this.mapCenter,
@@ -128,5 +151,30 @@ export class CouriersMapComponent implements OnInit {
       }
     });
     this.getCouriersByRestaurant(this._restaurantService.getSelectedRestaurantId(), this.map);
+  }
+
+  toggleModalMenu(): void {
+    if (this.isHidden) {
+      this.showModalMenu();
+    } else {
+      this.isSelected = false;
+      this.hideModalMenu();
+    }
+
+    this.isHidden = !this.isHidden;
+  }
+
+  showModalMenu(): void {
+    this.modalMenuBtnLocationRight = 150;
+    this.modalMenuLocationRight = '0';
+  }
+
+  hideModalMenu(): void {
+    this.modalMenuBtnLocationRight = 25;
+    this.modalMenuLocationRight = '-100';
+  }
+
+  getWorkStatusString(isOnWork: boolean): string {
+    return isOnWork ? 'On work.' : 'Resting.';
   }
 }

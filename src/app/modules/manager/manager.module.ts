@@ -22,6 +22,7 @@ import {CustomDatePipe} from '../../shared/pipes/date.pipe';
 import {MatIconModule} from '@angular/material/icon';
 import {SharedWindowsModule} from '../../shared/modules/shared-windows.module';
 import {DeliveryInfoMapComponent} from './components/delivery-info-map/delivery-info-map.component';
+import {CourierProfileComponent} from '../../shared/components/courier-profile/courier-profile.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import {DeliveryInfoMapComponent} from './components/delivery-info-map/delivery-
         path: '', component: NavMenuComponent, children: [
           {path: 'map', component: CouriersMapComponent},
           {path: 'couriers', component: CourierComponent},
+          {path: 'couriers/:id', component: CourierProfileComponent},
           {path: 'orders', component: OrderComponent},
           {path: 'deliveries', component: DeliveryComponent},
           {path: 'profile', component: ProfileComponent},

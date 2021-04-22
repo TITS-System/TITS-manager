@@ -1,0 +1,30 @@
+<div class="courier-profile-container">
+  <div class="back-btn" (click)="hide()">
+    <span class="material-icons">
+      arrow_forward_ios
+    </span>
+  </div>
+
+  <div class="content-wrapper">
+    <h1 class="username">
+      {{ courier.Username }}
+    </h1>
+    <h3 class="status">
+      {{ getStatusString() }}
+    </h3>
+    <div class="link-statistics">
+      <span>
+        Statistics
+      </span>
+    </div>
+    <div class="link-deliveries">
+      <span>
+        Deliveries
+      </span>
+    </div>
+    <div class="action-buttons">
+      <div class="edit">Edit</div>
+      <div class="delete">Delete</div>
+    </div>
+  </div>
+</div>

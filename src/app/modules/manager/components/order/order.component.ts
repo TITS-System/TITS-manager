@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {OrderInterface} from '../../../../shared/interfaces/order.interface';
 import {OrderService} from '../../services/order.service';
 import {RestaurantService} from '../../services/restaurant.service';
+import {CourierInterface} from '../../../../shared/interfaces/courier.interface';
 
 @Component({
   selector: 'app-order',
@@ -85,7 +86,6 @@ export class OrderComponent implements OnInit {
   }
 
   hideOrderById(): void {
-    (document.querySelector('.absolute-window') as HTMLElement).style.transition = '0.66s';
     (document.querySelector('.absolute-window') as HTMLElement).style.left = '100%';
   }
 }

@@ -15,55 +15,19 @@ import {RestaurantInterface} from '../../../../shared/interfaces/restaurant.inte
 })
 export class DeliveryComponent implements OnInit {
 
-  ELEMENT_DATA: DeliveryInterface[] = [
-    {
-      Id: 1,
-      OrderId: 321,
-      CourierUsername: 'Sasha',
-      TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()},
-      Status: DeliveryStatus.Cancelled
-    },
-    {
-      Id: 2,
-      OrderId: 321,
-      CourierUsername: 'Danya',
-      TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()},
-      Status: DeliveryStatus.Delivered
-    },
-    {
-      Id: 3,
-      OrderId: 321,
-      CourierUsername: 'Pasha',
-      TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()},
-      Status: DeliveryStatus.Delivering
-    },
-    {
-      // tslint:disable-next-line:max-line-length
-      Id: 4, OrderId: 321, CourierUsername: 'Vlad', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
-    // tslint:disable-next-line:max-line-length
-    {Id: 5, OrderId: 321, CourierUsername: 'Egor', TimeRange: {BeginAt: Date.now() - 100000000, FinishAt: Date.now() + 1500000000}, Status: DeliveryStatus.Cancelled},
-    // tslint:disable-next-line:max-line-length
-    {Id: 8, OrderId: 321, CourierUsername: 'Gena', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
-    {
-      Id: 6,
-      OrderId: 321,
-      CourierUsername: 'Alexei',
-      TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()},
-      Status: DeliveryStatus.Cancelled
-    },
-    // tslint:disable-next-line:max-line-length
-    {Id: 7, OrderId: 321, CourierUsername: 'Petr', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
-  ];
+  deliveries: DeliveryInterface[] = [];
+  // tslint:disable-next-line:variable-name
+  private _sortedOrders = [];
 
   search = '';
 
   get dataSource(): any {
     if (!this.search) {
-      return new MatTableDataSource(this.ELEMENT_DATA);
+      return new MatTableDataSource(this.deliveries);
     }
 
     return new MatTableDataSource(
-      this.ELEMENT_DATA.filter((c: DeliveryInterface) =>
+      this.deliveries.filter((c: DeliveryInterface) =>
         c.Id.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
         c.OrderId.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
         c.CourierUsername.toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
@@ -84,6 +48,11 @@ export class DeliveryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadDeliveries();
+  }
+
+  loadDeliveries(): void {
+
   }
 
   getProperLink(id: number): string {

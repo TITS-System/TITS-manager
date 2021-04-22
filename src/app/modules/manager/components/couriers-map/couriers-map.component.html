@@ -1,4 +1,34 @@
-<p>Map works</p>
-<h3>My Google Maps Demo</h3>
-<!--The div element for the couriers-map -->
-<div id="map"></div>
+
+
+
+
+
+<div class="main-layer">
+  <div class="modal-menu-btn" [ngStyle]="
+  {'top.px': modalMenuBtnLocationTop, 'right.px': modalMenuBtnLocationRight}"
+       (click)="toggleModalMenu()"
+  >
+    <div class="stripe"></div>
+    <div class="stripe"></div>
+    <div class="stripe"></div>
+  </div>
+  <div class="modal-menu-container" [ngStyle]="
+    {'top.px': modalMenuLocationTop, 'right.%': modalMenuLocationRight}">
+    <div class="offset-y"></div>
+    <div class="couriers-container">
+      <div class="courier" *ngFor="let courier of corsToShowInModal">
+        <div class="username-container">
+          <span class="username-text">
+            {{ courier.username }}
+          </span>
+        </div>
+        <div class="status-work-container">
+          <span class="status-work-inner">
+            {{ getWorkStatusString(courier.isOnWork) }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="map"></div>
+</div>

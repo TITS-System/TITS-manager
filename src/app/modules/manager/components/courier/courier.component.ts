@@ -2,6 +2,7 @@ import {AfterViewInit, ViewChild, Component, OnInit} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {CourierInterface} from '../../../../shared/interfaces/courier.interface';
+import {Router} from '@angular/router';
 
 export interface Courier extends CourierInterface {
   Position: number;
@@ -14,9 +15,18 @@ export interface Courier extends CourierInterface {
   styleUrls: ['./courier.component.sass']
 })
 export class CourierComponent implements OnInit {
+
+
   search = '';
 
-  get dataSource() {
+  // tslint:disable-next-line:variable-name
+  private _selectedCourierId = -1;
+
+  get selectedCourier(): Courier {
+    return this.couriers.filter(c => c.Id == this._selectedCourierId)[0];
+  }
+
+  get dataSource(): any {
     if (!this.search) {
       return new MatTableDataSource(this.ELEMENT_DATA);
     }
@@ -26,6 +36,8 @@ export class CourierComponent implements OnInit {
       c.Username.toLowerCase().indexOf(this.search.toLowerCase()) > -1));
   }
 
+
+  couriers: Courier[] = [];
 
   ELEMENT_DATA: Courier[] = [
     {Position: 1, Username: 'Sasha', IsOnWork: true, Id: 372824},
@@ -46,18 +58,30 @@ export class CourierComponent implements OnInit {
   // @ts-ignore
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
   }
 
 
-  openCourierPage(courierId: number) {
+  openCourierPage(courierId: number): void {
+    // this._selectedCourierId = courierId;
+    //
+    // this.showCourierById();
 
+    this.router.navigate(['/manager', 'couriers', `${courierId}`]);
   }
 
-  getProperLink(courierId: number) {
+  showCourierById(): void {
+    (document.querySelector('.absolute-window') as HTMLElement).style.left = '0';
+  }
+
+  hideCourierById(): void {
+    (document.querySelector('.absolute-window') as HTMLElement).style.left = '100%';
+  }
+
+  getProperLink(courierId: number): string {
     let propStr = String(courierId);
 
     while (propStr.length < 9) {
