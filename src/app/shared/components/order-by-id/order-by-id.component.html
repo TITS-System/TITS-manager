@@ -8,7 +8,7 @@
   <div class="header">
     <div class="header-inner">
       <span class="order-id">
-        Заказ #213123
+        #{{ getProperLink(selectedOrderId) }}
       </span>
     </div>
   </div>
@@ -17,20 +17,24 @@
     <div class="left-container">
       <div class="time-disclaimer">
         <div class="title part">Order time:</div>
-        <div class="context part">19 апреля 23:21</div>
+        <div class="context part">
+          {{ fullOrder.creationDateTime }}
+        </div>
       </div>
       <div class="time-disclaimer">
         <div class="part title">Delivery time:</div>
-        <div class="part context">20 апреля 01:21</div>
+        <div class="part context">
+          {{ deliveries[0].endTime }}
+        </div>
       </div>
     </div>
     <div class="center-container">
       <div class="addresses-wrapper">
         <div class="main-address">
-          <span>st. Pushkina h. 32</span>
+          <span>{{ fullOrder.addressString }}</span>
         </div>
         <div class="additional-address">
-          <span>front 4 apartament 12</span>
+          <span>{{ fullOrder.addressAdditional }}</span>
         </div>
       </div>
     </div>
@@ -42,74 +46,68 @@
       </div>
       <div class="context-wrapper">
         <ul>
-          <li>Cheese pizza Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam blanditiis iure maxime
-            mollitia quia sapiente.
-          </li>
-          <li>Beef pizza Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquam asperiores maxime
-            rem repudiandae, voluptate voluptates.
-          </li>
-          <li>Pineapple pizza</li>
+          <li> {{ fullOrder.content }} </li>
         </ul>
       </div>
     </div>
   </div>
-<!--  <div class="deliveries-info">-->
-<!--    &lt;!&ndash;    <div class="table-container">&ndash;&gt;-->
-<!--    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">-->
+  <div class="deliveries-info">
+    <!--    <div class="table-container">-->
+    <table mat-table [dataSource]="deliveries" class="mat-elevation-z8">
 
-<!--          <ng-container matColumnDef="Id">-->
-<!--            <th mat-header-cell *matHeaderCellDef class="table-id"> No.</th>-->
-<!--            <td mat-cell *matCellDef="let row">-->
-<!--            <span class="custom-link" (click)="openDeliveryById(row.Id)">-->
-<!--              #{{getProperLink(row.Id)}}-->
-<!--            </span>-->
-<!--            </td>-->
-<!--          </ng-container>-->
+      <ng-container matColumnDef="Id">
+        <th mat-header-cell *matHeaderCellDef class="table-id"> No.</th>
+        <td mat-cell *matCellDef="let row">
+            <span class="custom-link" (click)="openDeliveryById(row.id)">
+              #{{getProperLink(row.id)}}
+            </span>
+        </td>
+      </ng-container>
 
-<!--          <ng-container matColumnDef="OrderId">-->
-<!--            <th mat-header-cell *matHeaderCellDef class="table-order"> Order Id</th>-->
-<!--            <td mat-cell *matCellDef="let row">-->
-<!--            <span class="custom-link" (click)="openOrderById(row.OrderId)">-->
-<!--              #{{getProperLink(row.OrderId)}}-->
-<!--            </span>-->
-<!--            </td>-->
-<!--          </ng-container>-->
+      <ng-container matColumnDef="OrderId">
+        <th mat-header-cell *matHeaderCellDef class="table-order"> Order Id</th>
+        <td mat-cell *matCellDef="let row">
+            <span class="custom-link">
+              #{{getProperLink(row.orderId)}}
+            </span>
+        </td>
+      </ng-container>
 
-<!--          <ng-container matColumnDef="CourierUsername">-->
-<!--            <th mat-header-cell *matHeaderCellDef class="table-header"> Courier username</th>-->
-<!--            <td mat-cell *matCellDef="let row">-->
-<!--            <span class="custom-link" (click)="openCourierById(row.Courier.Id)">-->
-<!--              {{ row.CourierUsername }}-->
-<!--            </span>-->
-<!--            </td>-->
-<!--          </ng-container>-->
+      <ng-container matColumnDef="CourierUsername">
+        <th mat-header-cell *matHeaderCellDef class="table-header"> Courier username</th>
+        <td mat-cell *matCellDef="let row">
+            <span class="custom-link" (click)="openCourierById(row.id)">
+              {{  }}
+            </span>
+        </td>
+      </ng-container>
 
-<!--          <ng-container matColumnDef="TimeRange">-->
-<!--            <th mat-header-cell *matHeaderCellDef class="table-header"> Delivery dates</th>-->
-<!--            <td mat-cell *matCellDef="let row">-->
-<!--            <span class="begin-at">-->
-<!--              {{ getDateString(row.TimeRange.BeginAt) }}-->
-<!--            </span>-->
-<!--              <span *ngIf="!!row.TimeRange.FinishAt" class="finish-at">-->
-<!--              &nbsp;-&nbsp;{{ getDateString(row.TimeRange.FinishAt) }}-->
-<!--            </span>-->
-<!--            </td>-->
-<!--          </ng-container>-->
+      <ng-container matColumnDef="TimeRange">
+        <th mat-header-cell *matHeaderCellDef class="table-header"> Delivery dates</th>
+        <td mat-cell *matCellDef="let row">
+            <span class="begin-at">
+              {{ row.startTime }}
+            </span>
+          <span *ngIf="!!row.endTime" class="finish-at">
+              &nbsp;-&nbsp;{{ row.endTime }}
+            </span>
+        </td>
+      </ng-container>
 
-<!--          <ng-container matColumnDef="Status">-->
-<!--            <th mat-header-cell *matHeaderCellDef class="table-header"> Status</th>-->
-<!--            <td mat-cell *matCellDef="let row">-->
-<!--              <div class="icon-wrapper">-->
-<!--                <img *ngIf="row.Status.toString() == 'Delivered'" src="./assets/icons/delivered-icon.svg" alt="Delivered">-->
-<!--                <img *ngIf="row.Status.toString() == 'Delivering'" src="./assets/icons/delivering-icon.svg"-->
-<!--                     alt="Delivering">-->
-<!--                <img *ngIf="row.Status.toString() == 'Canceled'" src="./assets/icons/cancelled-2.0.svg" alt="Cancelled">-->
-<!--              </div>-->
-<!--            </td>-->
-<!--          </ng-container>-->
+      <ng-container matColumnDef="Status">
+        <th mat-header-cell *matHeaderCellDef class="table-header"> Status</th>
+        <td mat-cell *matCellDef="let row">
+          <div class="icon-wrapper">
+            <img *ngIf="row.status.toLowerCase() == 'inprogress'" src="./assets/icons/delivered-icon.svg" alt="Delivering">
+            <img *ngIf="row.status.toLowerCase() == 'canceled'" src="./assets/icons/cancelled-2.0.svg" alt="Canceled">
+            <img *ngIf="row.status.toLowerCase() == 'finished'" src="./assets/icons/delivering-icon.svg"
+                 alt="Delivered">
+          </div>
+        </td>
+      </ng-container>
 
-<!--          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-<!--          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
-<!--        </table>-->
-<!--  </div>-->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
 </div>

@@ -40,7 +40,7 @@ export class CourierComponent implements OnInit {
   couriers: Courier[] = [];
 
   ELEMENT_DATA: Courier[] = [
-    {Position: 1, Username: 'Sasha', IsOnWork: true, Id: 372824},
+    {Position: 1, Username: 'Sasha', IsOnWork: true, Id: 1},
     {Position: 2, Username: 'Danya', IsOnWork: false, Id: 20223},
     {Position: 3, Username: 'Pasha', IsOnWork: true, Id: 889432121},
     {Position: 4, Username: 'Vlad', IsOnWork: true, Id: 2523},
