@@ -117,4 +117,13 @@ export class OrderComponent implements OnInit {
         });
     }
   }
+
+  seedOrder(): void {
+    const token = localStorage.getItem(`token`) || '';
+    const headers = new HttpHeaders().set('auth-token', token);
+    this.httpClient.get(`${environment.apiUrl}/order/seedorder`, { headers })
+      .subscribe((response: any) => {
+        this.loadOrders();
+      });
+  }
 }
