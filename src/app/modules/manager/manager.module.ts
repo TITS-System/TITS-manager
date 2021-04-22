@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {NavMenuComponent} from './components/nav-menu/nav-menu.component';
 import {SharedModule} from '../../shared/modules/shared.module';
 import {RouterModule} from '@angular/router';
-import {CouriersMapComponent} from './components/map/couriers-map.component';
+import {CouriersMapComponent} from './components/couriers-map/couriers-map.component';
 import {CourierComponent} from './components/courier/courier.component';
 import {RestaurantComponent} from './components/restaurant/restaurant.component';
 import {OrderComponent} from './components/order/order.component';

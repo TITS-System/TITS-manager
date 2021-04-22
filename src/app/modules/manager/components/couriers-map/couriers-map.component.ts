@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GetCouriersResultInterface} from '../../../../shared/interfaces/getCouriersResult.interface';
 import {environment} from '../../../../../environments/environment';
 import {CourierAccountInterface} from '../../../../shared/interfaces/courierAccount.interface';
+import {RestaurantService} from '../../services/restaurant.service';
 
 @Component({
   selector: 'app-map',
@@ -28,21 +29,6 @@ export class CouriersMapComponent implements OnInit {
 
   private map?: google.maps.Map;
 
-  // Initialize and add the map
-  initMap(): void {
-    this.restaurantMarker = new google.maps.Marker({
-      position: this.mapCenter,
-      map: this.map,
-      icon: {
-        url: this.defaultRestaurantIconUrl,
-        anchor: new google.maps.Point(35, 35),
-        scaledSize: new google.maps.Size(70, 70)
-      }
-    });
-    this.getCouriersByRestaurant(1, this.map);
-  }
-
-
   getCouriersByRestaurant(restaurantId: number, map: any): void {
     const token = localStorage.getItem(`token`) || '';
     const headers = new HttpHeaders().set('auth-token', token);
@@ -51,6 +37,11 @@ export class CouriersMapComponent implements OnInit {
     this.httpClient.get(`${environment.apiUrl}/Courier/GetAllByRestaurant?restaurantId=${restaurantId}`, {headers})
       .subscribe((response: any) => {
         this.resCouriers = response;
+
+        const oldMarkers = [...this.courierMarkers];
+
+        // clear
+        this.courierMarkers = [];
         this.resCouriers.couriers.forEach((e) => {
             const marker = new google.maps.Marker({
               position: {lat: e.lastLatLng.lat, lng: e.lastLatLng.lng},
@@ -63,12 +54,38 @@ export class CouriersMapComponent implements OnInit {
             this.courierMarkers.push(marker);
           }
         );
+        // do scale
+        this.performMarkerScaling();
+
+        // inbind from map
+        oldMarkers.forEach(m => {
+          m.setMap(null);
+        });
       });
   }
 
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              // tslint:disable-next-line:variable-name
+              private _restaurantService: RestaurantService
+  ) {
     this.resCouriers = {couriers: []};
+  }
+
+  performMarkerScaling(): void {
+    const scaleFactor = ((this.map?.getZoom() ?? 0) - 3) / this.baseZoom;
+    this.courierMarkers.forEach((m) => {
+      m.setIcon({
+        url: this.defaultCourierIconUrl,
+        anchor: new google.maps.Point(29 * scaleFactor, 29 * scaleFactor),
+        scaledSize: new google.maps.Size(58 * scaleFactor, 58 * scaleFactor)
+      });
+    });
+    this.restaurantMarker?.setIcon({
+      url: this.defaultRestaurantIconUrl,
+      anchor: new google.maps.Point(35 * scaleFactor, 35 * scaleFactor),
+      scaledSize: new google.maps.Size(70 * scaleFactor, 70 * scaleFactor)
+    });
   }
 
   ngOnInit(): void {
@@ -81,19 +98,26 @@ export class CouriersMapComponent implements OnInit {
     );
     this.initMap();
     this.map?.addListener('zoom_changed', () => {
-      const scaleFactor = ((this.map?.getZoom() ?? 0) - 3) / this.baseZoom;
-      this.courierMarkers.forEach((m) => {
-        m.setIcon({
-          url: this.defaultCourierIconUrl,
-          anchor: new google.maps.Point(29 * scaleFactor, 29 * scaleFactor),
-          scaledSize: new google.maps.Size(58 * scaleFactor, 58 * scaleFactor)
-        });
-      });
-      this.restaurantMarker?.setIcon({
-        url: this.defaultRestaurantIconUrl,
-        anchor: new google.maps.Point(35 * scaleFactor, 35 * scaleFactor),
-        scaledSize: new google.maps.Size(70 * scaleFactor, 70 * scaleFactor)
-      });
+      this.performMarkerScaling();
     });
+
+    setInterval(() => {
+      this.getCouriersByRestaurant(this._restaurantService.getSelectedRestaurantId(), this.map);
+      console.log('Reload');
+    }, 3000);
+  }
+
+  // Initialize and add the couriers-map
+  initMap(): void {
+    this.restaurantMarker = new google.maps.Marker({
+      position: this.mapCenter,
+      map: this.map,
+      icon: {
+        url: this.defaultRestaurantIconUrl,
+        anchor: new google.maps.Point(35, 35),
+        scaledSize: new google.maps.Size(70, 70)
+      }
+    });
+    this.getCouriersByRestaurant(this._restaurantService.getSelectedRestaurantId(), this.map);
   }
 }
