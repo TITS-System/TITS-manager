@@ -30,7 +30,7 @@ export class DeliveryInfoMapComponent implements OnInit {
   private map?: google.maps.Map;
 
   // TODO: SET IT SOMEHOW
-  private deliveryId?: number = 13;
+  private deliveryId?: number = 20;
 
   loadLocations(deliveryId: number, map: any): void {
     const token = localStorage.getItem(`token`) || '';
@@ -103,6 +103,6 @@ export class DeliveryInfoMapComponent implements OnInit {
       }
     });
     // TODO: REPLACE WITH PROPER ID
-    this.loadLocations(this.deliveryId ?? 1, this.map);
+    this.loadLocations(this.deliveryId ?? 0, this.map);
   }
 }
