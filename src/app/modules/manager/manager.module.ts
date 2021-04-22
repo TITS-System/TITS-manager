@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {NavMenuComponent} from './components/nav-menu/nav-menu.component';
 import {SharedModule} from '../../shared/modules/shared.module';
 import {RouterModule} from '@angular/router';
-import {MapComponent} from './components/map/map.component';
+import {CouriersMapComponent} from './components/map/couriers-map.component';
 import {CourierComponent} from './components/courier/courier.component';
 import {RestaurantComponent} from './components/restaurant/restaurant.component';
 import {OrderComponent} from './components/order/order.component';
@@ -27,7 +27,7 @@ import {SharedWindowsModule} from '../../shared/modules/shared-windows.module';
   declarations: [
     NavMenuComponent,
     RestaurantComponent,
-    MapComponent,
+    CouriersMapComponent,
     CourierComponent,
     OrderComponent,
     DeliveryComponent,
@@ -42,7 +42,7 @@ import {SharedWindowsModule} from '../../shared/modules/shared-windows.module';
     RouterModule.forChild([
       {
         path: '', component: NavMenuComponent, children: [
-          {path: 'map', component: MapComponent},
+          {path: 'map', component: CouriersMapComponent},
           {path: 'couriers', component: CourierComponent},
           {path: 'orders', component: OrderComponent},
           {path: 'deliveries', component: DeliveryComponent},
