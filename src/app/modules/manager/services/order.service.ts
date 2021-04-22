@@ -26,7 +26,7 @@ export class OrderService {
     // tslint:disable-next-line:variable-name
     private _httpClient: HttpClient,
     // tslint:disable-next-line:variable-name
-    private _accoutService: AccountService,
+    private accountService: AccountService,
     private router: Router
   ) {
   }

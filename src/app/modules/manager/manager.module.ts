@@ -21,6 +21,7 @@ import {MatCardModule} from '@angular/material/card';
 import {CustomDatePipe} from '../../shared/pipes/date.pipe';
 import {MatIconModule} from '@angular/material/icon';
 import {SharedWindowsModule} from '../../shared/modules/shared-windows.module';
+import {DeliveryInfoMapComponent} from './components/delivery-info-map/delivery-info-map.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {SharedWindowsModule} from '../../shared/modules/shared-windows.module';
     NavMenuComponent,
     RestaurantComponent,
     CouriersMapComponent,
+    DeliveryInfoMapComponent,
     CourierComponent,
     OrderComponent,
     DeliveryComponent,
@@ -42,7 +44,7 @@ import {SharedWindowsModule} from '../../shared/modules/shared-windows.module';
     RouterModule.forChild([
       {
         path: '', component: NavMenuComponent, children: [
-          {path: 'map', component: CouriersMapComponent},
+          {path: 'map', component: DeliveryInfoMapComponent},
           {path: 'couriers', component: CourierComponent},
           {path: 'orders', component: OrderComponent},
           {path: 'deliveries', component: DeliveryComponent},
