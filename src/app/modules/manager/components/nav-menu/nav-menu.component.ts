@@ -15,22 +15,25 @@ export class NavMenuComponent implements OnInit {
     public restaurantService: RestaurantService,
     private routerModule: RouterModule
   ) {
+
   }
 
   ngOnInit(): void {
     if (this.restaurantService.isRestaurantSelected()) {
-      this.router.navigate(['/manager', 'map']);
+      // this.router.navigate(['/manager', 'couriers-map']);
       return;
     }
 
     this.router.navigate(['/manager', 'restaurants']);
   }
 
-  getSelectedRestaurantAddress(): string {
-    return this.restaurantService.getSelectedRestaurantAddress();
+   getSelectedRestaurantAddress(): string {
+    return localStorage.getItem('restaurant_address') || '';
   }
 
   changeRestaurant(): void {
+    localStorage.removeItem('restaurant_address');
+    localStorage.removeItem('restaurantId');
     this.router.navigate(['/manager', 'restaurants']);
   }
 }

@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from 'src/environments/environment';
+import {loginDTO} from '../interfaces/loginDto.interface';
 import {Role} from '../interfaces/role.interface';
 import {WorkSessionService} from './worksession.service';
 
@@ -12,7 +13,7 @@ import {WorkSessionService} from './worksession.service';
 })
 export class AccountService {
 
-  postfix = 'WorkerAccount';
+  postfix = 'manager';
 
   private _userRoles: Role[] = [];
 
@@ -42,33 +43,34 @@ export class AccountService {
   get token(): string {
     if (!this._token) {
       this._token = localStorage.getItem('token') + '';
+
     }
     return this._token;
   }
 
 
-  login(loginData: any): Observable<any> {
+  login(loginData: loginDTO): Observable<any> {
     return this._httpClient.post(`${environment.apiUrl}/${this.postfix}/login`, loginData, {withCredentials: true})
       .pipe(
         map((response: any) => {
-          if (response?.token) {
-            this.token = response.token;
+          if (response?.authToken) {
+            this.token = response.authToken;
           }
 
-          this._workSessionService.beginSession()
-            .subscribe(res => {
-              console.log('Begin Session: ', res);
-              return response;
-            });
+          // this._workSessionService.beginSession()
+          //   .subscribe(res => {
+          //     console.log('Begin Session: ', res);
+          //     return response;
+          //   });
         })
       );
   }
 
-  killToken() {
+  killToken(): void {
     this.token = '';
   }
 
-  logout() {
+  logout(): void {
     this._httpClient.get(`${environment.apiUrl}/${this.postfix}/logout`)
       .subscribe(() => {
         this.killToken();
@@ -77,7 +79,7 @@ export class AccountService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.token;
+    return !!this.token || localStorage.getItem('token') === null;
   }
 
   loadRolesAndCheck(role: string): Promise<boolean> {
@@ -85,7 +87,7 @@ export class AccountService {
       .pipe(
         map((response: any) => {
           this.userRoles = response.roles;
-          return !!this.userRoles.filter(r => r.titleEn == role).length;
+          return !!this.userRoles.filter(r => r.titleEn === role).length;
         })
       ).toPromise();
   }

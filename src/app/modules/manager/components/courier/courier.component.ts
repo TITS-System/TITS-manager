@@ -1,7 +1,11 @@
-import {AfterViewInit, ViewChild, Component, OnInit} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {CourierInterface} from '../../../../shared/interfaces/courier.interface';
+import { AfterViewInit, ViewChild, Component, OnInit } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { CourierInterface } from '../../../../shared/interfaces/courier.interface';
+import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { RestaurantService } from '../../services/restaurant.service';
 
 export interface Courier extends CourierInterface {
   Position: number;
@@ -14,31 +18,34 @@ export interface Courier extends CourierInterface {
   styleUrls: ['./courier.component.sass']
 })
 export class CourierComponent implements OnInit {
+
+
   search = '';
 
-  get dataSource() {
+  // tslint:disable-next-line:variable-name
+  private _selectedCourierId = -1;
+
+  get selectedCourier(): { position: number, username: string, isOnWork: boolean, id: number } {
+    return this.couriers.filter(c => c.id == this._selectedCourierId)[0];
+  }
+
+  get dataSource(): any {
     if (!this.search) {
       return new MatTableDataSource(this.ELEMENT_DATA);
     }
 
-    return new MatTableDataSource(this.ELEMENT_DATA.filter((c: CourierInterface) =>
-      c.Id.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
-      c.Username.toLowerCase().indexOf(this.search.toLowerCase()) > -1));
+    return new MatTableDataSource(this.ELEMENT_DATA.filter((c) =>
+      c.id.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+      c.username.toLowerCase().indexOf(this.search.toLowerCase()) > -1));
   }
 
 
-  ELEMENT_DATA: Courier[] = [
-    {Position: 1, Username: 'Sasha', IsOnWork: true, Id: 372824},
-    {Position: 2, Username: 'Danya', IsOnWork: false, Id: 20223},
-    {Position: 3, Username: 'Pasha', IsOnWork: true, Id: 889432121},
-    {Position: 4, Username: 'Vlad', IsOnWork: true, Id: 2523},
-    {Position: 5, Username: 'Egor', IsOnWork: false, Id: 6345},
-    {Position: 8, Username: 'Gena', IsOnWork: false, Id: 7},
-    {Position: 6, Username: 'Alexei', IsOnWork: true, Id: 567},
-    {Position: 7, Username: 'Petr', IsOnWork: true, Id: 5674453},
-  ];
+  couriers: { position: number, username: string, isOnWork: boolean, id: number }[] = [];
 
-  displayedColumns: string[] = ['Position', 'Username', 'IsOnWork', 'Id'];
+
+  ELEMENT_DATA: { position: number, username: string, isOnWork: boolean, id: number }[] = [];
+
+  displayedColumns: string[] = ['position', 'username', 'isOnWork', 'id'];
   // dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
   private _dataSource: any;
@@ -46,18 +53,48 @@ export class CourierComponent implements OnInit {
   // @ts-ignore
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() {
+  constructor(private router: Router,
+    private httpClient: HttpClient,
+    private _restaurantService: RestaurantService) {
   }
 
   ngOnInit(): void {
+
+    // console.log(`${environment.apiUrl}/courier/MGetAllByRestaurant?restaurantId=${this._restaurantService.getSelectedRestaurantId()}`);
+    this.reloadCouriers();
+
+    setInterval(this.reloadCouriers, 3000);
+  }
+
+  reloadCouriers(): void{        
+    const token = localStorage.getItem(`token`) || '';
+    const headers = new HttpHeaders().set('auth-token', token);
+    this.httpClient.get(`${environment.apiUrl}/courier/MGetAllByRestaurant?restaurantId=${this._restaurantService.getSelectedRestaurantId()}`, { headers })
+      .subscribe((response: any) => {
+        // console.table(response.couriers);
+        this.ELEMENT_DATA = response.couriers
+        this.ELEMENT_DATA.forEach((val, index) => { val.position = index; });
+      });
   }
 
 
-  openCourierPage(courierId: number) {
+  openCourierPage(courierId: number): void {
+    // this._selectedCourierId = courierId;
+    //
+    // this.showCourierById();
 
+    this.router.navigate(['/manager', 'couriers', `${courierId}`]);
   }
 
-  getProperLink(courierId: number) {
+  showCourierById(): void {
+    (document.querySelector('.absolute-window') as HTMLElement).style.left = '0';
+  }
+
+  hideCourierById(): void {
+    (document.querySelector('.absolute-window') as HTMLElement).style.left = '100%';
+  }
+
+  getProperLink(courierId: number): string {
     let propStr = String(courierId);
 
     while (propStr.length < 9) {
@@ -67,5 +104,34 @@ export class CourierComponent implements OnInit {
     return propStr;
   }
 
+  handleToggle(row: { position: number, username: string, isOnWork: boolean, id: number }) {
+    console.log(row.id);
 
+    const token = localStorage.getItem(`token`) || '';
+    const headers = new HttpHeaders().set('auth-token', token);
+
+    if (row.isOnWork) {
+      console.log(`${environment.apiUrl}/workersession/begin?courierId=${row.id}`);
+
+      this.httpClient.get(`${environment.apiUrl}/workersession/begin?courierId=${row.id}`, { headers })
+        .subscribe((response: any) => {
+        });
+    }
+    else {
+      console.log(`${environment.apiUrl}/workersession/close?courierId=${row.id}`);
+
+      this.httpClient.get(`${environment.apiUrl}/workersession/close?courierId=${row.id}`, { headers })
+        .subscribe((response: any) => {
+        });
+    }
+  }
+
+  seedCourier(): void {
+    const token = localStorage.getItem(`token`) || '';
+    const headers = new HttpHeaders().set('auth-token', token);
+    this.httpClient.get(`${environment.apiUrl}/courier/seedcourier`, { headers })
+      .subscribe((response: any) => {
+        this.reloadCouriers();
+      });
+  }
 }

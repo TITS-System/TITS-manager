@@ -5,6 +5,10 @@ import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {CourierInterface} from '../../../../shared/interfaces/courier.interface';
 import {Router} from '@angular/router';
+import {RestaurantInterface} from '../../../../shared/interfaces/restaurant.interface';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {environment} from '../../../../../environments/environment';
+import {RestaurantService} from '../../services/restaurant.service';
 
 
 @Component({
@@ -14,54 +18,34 @@ import {Router} from '@angular/router';
 })
 export class DeliveryComponent implements OnInit {
 
-  ELEMENT_DATA: DeliveryInterface[] = [
-    {
-      Id: 1,
-      OrderId: 321,
-      CourierUsername: 'Sasha',
-      TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()},
-      Status: DeliveryStatus.Cancelled
-    },
-    {
-      Id: 2,
-      OrderId: 321,
-      CourierUsername: 'Danya',
-      TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()},
-      Status: DeliveryStatus.Delivered
-    },
-    {
-      Id: 3,
-      OrderId: 321,
-      CourierUsername: 'Pasha',
-      TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()},
-      Status: DeliveryStatus.Delivering
-    },
-    {Id: 4, OrderId: 321, CourierUsername: 'Vlad', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
-    {Id: 5, OrderId: 321, CourierUsername: 'Egor', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
-    {Id: 8, OrderId: 321, CourierUsername: 'Gena', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
-    {
-      Id: 6,
-      OrderId: 321,
-      CourierUsername: 'Alexei',
-      TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()},
-      Status: DeliveryStatus.Cancelled
-    },
-    {Id: 7, OrderId: 321, CourierUsername: 'Petr', TimeRange: {BeginAt: Date.now(), FinishAt: Date.now()}, Status: DeliveryStatus.Cancelled},
+  deliveries: {
+    id:number;
+    orderId:number;
+    courierId: number;
+    courierUsername:string;
+    startTime:string;
+    endTime:string;
+    status:string;
+  }[] = [
+
   ];
+  // tslint:disable-next-line:variable-name
+  private _sortedOrders = [];
 
   search = '';
 
   get dataSource(): any {
     if (!this.search) {
-      return new MatTableDataSource(this.ELEMENT_DATA);
+      return new MatTableDataSource(this.deliveries);
     }
 
     return new MatTableDataSource(
-      this.ELEMENT_DATA.filter((c: DeliveryInterface) =>
-        c.Id.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
-        c.OrderId.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
-        c.CourierUsername.toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
-        c.Status.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1));
+      this.deliveries.filter((c: DeliveryInterface) =>
+        c.id.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+        c.orderId.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+        c.courierUsername.toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+        c.startTime.toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+        c.status.toString().toLowerCase().indexOf(this.search.toLowerCase()) > -1));
   }
 
   displayedColumns: string[] = [
@@ -72,13 +56,26 @@ export class DeliveryComponent implements OnInit {
     'Status'
   ];
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private httpClient: HttpClient,
+              private restaurantService: RestaurantService
+  ) {
   }
 
   ngOnInit(): void {
+    this.loadDeliveries();
   }
 
-  getProperLink(id: number) {
+  private loadDeliveries(): void {
+    const token = localStorage.getItem(`token`) || '';
+    const headers = new HttpHeaders().set('auth-token', token);
+    this.httpClient.get(`${environment.apiUrl}/delivery/GetByRestaurantId?restaurantId=${this.restaurantService.getSelectedRestaurantId()}`, { headers })
+      .subscribe((response: any) => {
+        this.deliveries = response.deliveries;
+      });
+  }
+
+  getProperLink(id: number): string {
     let propStr = String(id);
 
     while (propStr.length < 9) {
@@ -88,16 +85,20 @@ export class DeliveryComponent implements OnInit {
     return propStr;
   }
 
-  getDateString(beginAt: number) {
+  getDateString(beginAt: number): string {
     return new Date(beginAt).toDateString();
   }
 
-  openDeliveryById(Id: number) {
-    //TODO
+  openDeliveryById(Id: number): void {
+    // TODO
     // this.router.navigate(['/manager', 'delivery/:${}'])
   }
 
-  openOrderById(OrderId: number) {
+  openOrderById(OrderId: number): void {
+
+  }
+
+  openCourierById(CourierId: number): void {
 
   }
 }
